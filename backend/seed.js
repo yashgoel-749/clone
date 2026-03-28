@@ -1,5 +1,6 @@
 const { query, pool } = require('./db');
-const bcrypt = require('bcryptjs');
+const fs = require('fs');
+const path = require('path');
 
 const products = [
   {
@@ -7,8 +8,8 @@ const products = [
     price: 999.99,
     description: "Experience the ultimate iPhone with a titanium design, A17 Pro chip, and a powerful camera system.",
     category: "Electronics",
-    image: "https://m.media-amazon.com/images/I/81+GIkwqLIL._AC_SL1500_.jpg",
-    images: ["https://m.media-amazon.com/images/I/81+GIkwqLIL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/81C6N2Q8tXL._AC_SL1500_.jpg"],
+    image: "/image/81+GIkwqLIL._AC_SL1500_.jpg",
+    images: ["/image/81+GIkwqLIL._AC_SL1500_.jpg", "/image/81C6N2Q8tXL._AC_SL1500_.jpg"],
     rating: 4.8,
     stock: 50,
     specs: { "Brand": "Apple", "Model": "iPhone 15 Pro", "Memory": "256 GB" }
@@ -18,8 +19,8 @@ const products = [
     price: 348.00,
     description: "Industry-leading noise cancelling with dual processors and carbon fiber drivers.",
     category: "Electronics",
-    image: "https://m.media-amazon.com/images/I/61+7XpE3r0L._AC_SL1500_.jpg",
-    images: ["https://m.media-amazon.com/images/I/61+7XpE3r0L._AC_SL1500_.jpg"],
+    image: "/image/61+7XpE3r0L._AC_SL1500_.jpg",
+    images: ["/image/61+7XpE3r0L._AC_SL1500_.jpg"],
     rating: 4.7,
     stock: 35,
     specs: { "Brand": "Sony", "Battery": "30 Hours" }
@@ -29,8 +30,8 @@ const products = [
     price: 139.99,
     description: "The best-selling Kindle with a larger display, waterproof body, and adjustable warm light.",
     category: "Gadgets",
-    image: "https://m.media-amazon.com/images/I/51538Z4OqPL._AC_SL1000_.jpg",
-    images: ["https://m.media-amazon.com/images/I/51538Z4OqPL._AC_SL1000_.jpg"],
+    image: "/image/51538Z4OqPL._AC_SL1000_.jpg",
+    images: ["/image/51538Z4OqPL._AC_SL1000_.jpg"],
     rating: 4.9,
     stock: 120,
     specs: { "Display": "6.8 inch", "Storage": "16 GB" }
@@ -40,8 +41,8 @@ const products = [
     price: 99.00,
     description: "The ultimate wireless mouse with speed, precision, and silent scrolling.",
     category: "Accessories",
-    image: "https://m.media-amazon.com/images/I/61ni3Ky39AL._AC_SL1500_.jpg",
-    images: ["https://m.media-amazon.com/images/I/61ni3Ky39AL._AC_SL1500_.jpg"],
+    image: "/image/61ni3Ky39AL._AC_SL1500_.jpg",
+    images: ["/image/61ni3Ky39AL._AC_SL1500_.jpg"],
     rating: 4.8,
     stock: 80,
     specs: { "Brand": "Logitech", "Type": "Wireless" }
@@ -51,8 +52,8 @@ const products = [
     price: 1099.00,
     description: "Strikingly thin design, M2 chip, 13.6-inch Liquid Retina display and 18 hours of battery life.",
     category: "Laptops",
-    image: "https://m.media-amazon.com/images/I/71f5Eu5lJSL._AC_SL1500_.jpg",
-    images: ["https://m.media-amazon.com/images/I/71f5Eu5lJSL._AC_SL1500_.jpg"],
+    image: "/image/71f5Eu5lJSL._AC_SL1500_.jpg",
+    images: ["/image/71f5Eu5lJSL._AC_SL1500_.jpg"],
     rating: 4.8,
     stock: 25,
     specs: { "Chip": "M2", "Battery": "18 Hours" }
@@ -62,8 +63,8 @@ const products = [
     price: 89.99,
     description: "Programmable Air Fryer that Crisps, Roasts, Reheats, and Dehydrates for Quick, Easy Meals.",
     category: "Home & Kitchen",
-    image: "https://m.media-amazon.com/images/I/71vTo628SBL._AC_SL1500_.jpg",
-    images: ["https://m.media-amazon.com/images/I/71vTo628SBL._AC_SL1500_.jpg"],
+    image: "/image/71vTo628SBL._AC_SL1500_.jpg",
+    images: ["/image/71vTo628SBL._AC_SL1500_.jpg"],
     rating: 4.8,
     stock: 150,
     specs: { "Capacity": "4 Quarts", "Color": "Black/Grey" }
@@ -73,8 +74,8 @@ const products = [
     price: 24.00,
     description: "A leave-on lip mask that soothes and moisturizes for smoother, more supple lips overnight.",
     category: "Beauty",
-    image: "https://m.media-amazon.com/images/I/51H7h1NqFLL._AC_SL1500_.jpg",
-    images: ["https://m.media-amazon.com/images/I/51H7h1NqFLL._AC_SL1500_.jpg"],
+    image: "/image/51H7h1NqFLL._AC_SL1500_.jpg",
+    images: ["/image/51H7h1NqFLL._AC_SL1500_.jpg"],
     rating: 4.7,
     stock: 300,
     specs: { "Type": "Lip Mask", "Flavor": "Berry" }
@@ -84,8 +85,8 @@ const products = [
     price: 12.00,
     description: "An Easy & Proven Way to Build Good Habits & Break Bad Ones.",
     category: "Books",
-    image: "https://m.media-amazon.com/images/I/91bYsX41DVL._AC_SL1500_.jpg",
-    images: ["https://m.media-amazon.com/images/I/91bYsX41DVL._AC_SL1500_.jpg"],
+    image: "/image/91bYsX41DVL._AC_SL1500_.jpg",
+    images: ["/image/91bYsX41DVL._AC_SL1500_.jpg"],
     rating: 4.9,
     stock: 1000,
     specs: { "Author": "James Clear", "Format": "Hardcover" }
@@ -95,8 +96,8 @@ const products = [
     price: 47.99,
     description: "A unique building project for adults, creating a beautiful flower display model entirely from LEGO pieces.",
     category: "Toys & Games",
-    image: "https://m.media-amazon.com/images/I/81vAsiU7m+L._AC_SL1500_.jpg",
-    images: ["https://m.media-amazon.com/images/I/81vAsiU7m+L._AC_SL1500_.jpg"],
+    image: "/image/81vAsiU7m+L._AC_SL1500_.jpg",
+    images: ["/image/81vAsiU7m+L._AC_SL1500_.jpg"],
     rating: 4.9,
     stock: 200,
     specs: { "Pieces": "756", "Age": "18+" }
@@ -106,8 +107,8 @@ const products = [
     price: 25.95,
     description: "Vacuum Insulated Stainless Steel Bottler with Straw Lid, 24 Hours Cold, 12 Hours Hot.",
     category: "Sports & Outdoors",
-    image: "https://m.media-amazon.com/images/I/71YF8MCHGkL._AC_SL1500_.jpg",
-    images: ["https://m.media-amazon.com/images/I/71YF8MCHGkL._AC_SL1500_.jpg"],
+    image: "/image/71YF8MCHGkL._AC_SL1500_.jpg",
+    images: ["/image/71YF8MCHGkL._AC_SL1500_.jpg"],
     rating: 4.8,
     stock: 450,
     specs: { "Volume": "40 oz", "Material": "Stainless Steel" }
@@ -117,8 +118,8 @@ const products = [
     price: 48.00,
     description: "Shock-resistant sports watch featuring black dial with auto LED light, 1/1000-second stopwatch.",
     category: "Fashion",
-    image: "https://m.media-amazon.com/images/I/61Sj2H+p5iL._AC_UY1000_.jpg",
-    images: ["https://m.media-amazon.com/images/I/61Sj2H+p5iL._AC_UY1000_.jpg"],
+    image: "/image/61Sj2H+p5iL._AC_UY1000_.jpg",
+    images: ["/image/61Sj2H+p5iL._AC_UY1000_.jpg"],
     rating: 4.6,
     stock: 60,
     specs: { "Brand": "Casio", "Resistant": "Shock & Water" }
@@ -127,21 +128,29 @@ const products = [
 
 async function seed() {
   try {
-    console.log('Starting seed process...');
+    console.log('--- Initializing Neon DB ---');
     
-    // Fetch categories to get their IDs
+    // 1. Read and apply schema.sql
+    console.log('Applying schema and initial categories...');
+    const schemaPath = path.join(__dirname, 'schema.sql');
+    const schemaSql = fs.readFileSync(schemaPath, 'utf8');
+    await query(schemaSql);
+    console.log('✔ Schema applied successfully.');
+
+    // 2. Fetch or confirm categories
+    console.log('Seeding products...');
     const catRes = await query('SELECT id, name FROM categories');
     const categoryMap = {};
     catRes.rows.forEach(r => categoryMap[r.name] = r.id);
 
+    // 3. Insert products
     for (const p of products) {
       const catId = categoryMap[p.category];
       if (!catId) {
-        console.warn(`Category ${p.category} not found for product ${p.title}. Skipping.`);
+        console.warn(`⚠ Category "${p.category}" not found for "${p.title}". Skipping.`);
         continue;
       }
 
-      // Insert product
       const productRes = await query(
         `INSERT INTO products (category_id, title, description, price, rating, stock, specs, main_image) 
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
@@ -151,19 +160,18 @@ async function seed() {
 
       const productId = productRes.rows[0].id;
 
-      // Insert product images
-      for (const img of p.images) {
+      for (const imgUrl of p.images) {
         await query(
           'INSERT INTO product_images (product_id, image_url) VALUES ($1, $2)',
-          [productId, img]
+          [productId, imgUrl]
         );
       }
     }
 
-    console.log('Seeding successful!');
+    console.log('✔ All data successfully migrated to Neon DB.');
     process.exit(0);
   } catch (err) {
-    console.error('Seeding failed:', err);
+    console.error('❌ Migration failed:', err);
     process.exit(1);
   }
 }

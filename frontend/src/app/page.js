@@ -50,38 +50,7 @@ function HeroCarousel() {
   );
 }
 
-function ProductList({ search, category }) {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(`http://localhost:5000/api/products?search=${search}&category=${category}`);
-        const data = await res.json();
-        setProducts(data);
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, [search, category]);
-
-  if (loading) return <div className="loading">Loading Amazing Products...</div>;
-  if (products.length === 0) return <div className="no-products">No products found matching your search.</div>;
-
-  return (
-    <div className="product-grid">
-      {products.map(product => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </div>
-  );
-}
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -103,10 +72,10 @@ export default function Home() {
                 <div className="card-title">Continue shopping deals</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/81cnrbuek7l._ac_sy200_.jpg" alt="Keyboard Rest"/><div className="quad-label">Keyboard accessories</div></div>
-                    <div className="quad-item"><img src="/image/511nzqxi0sl._ac_sy200_.jpg" alt="Mouse Pad"/><div className="quad-label">Mouse pads</div></div>
-                    <div className="quad-item"><img src="/image/71ewwwqoiql._ac_sy200_.jpg" alt="Mechanical Keyboard"/><div className="quad-label">Mechanical keyboards</div></div>
-                    <div className="quad-item"><img src="/image/41yffsrplzl._ac_sy200_.jpg" alt="Wrist Rest"/><div className="quad-label">Wrist rest sets</div></div>
+                    <div className="quad-item"><img src="/image/81cnrbuek7l._ac_sy200_.jpg" alt="Keyboard Rest" /><div className="quad-label">Keyboard accessories</div></div>
+                    <div className="quad-item"><img src="/image/511nzqxi0sl._ac_sy200_.jpg" alt="Mouse Pad" /><div className="quad-label">Mouse pads</div></div>
+                    <div className="quad-item"><img src="/image/71ewwwqoiql._ac_sy200_.jpg" alt="Mechanical Keyboard" /><div className="quad-label">Mechanical keyboards</div></div>
+                    <div className="quad-item"><img src="/image/41yffsrplzl._ac_sy200_.jpg" alt="Wrist Rest" /><div className="quad-label">Wrist rest sets</div></div>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">See more deals</Link></div>
@@ -115,10 +84,10 @@ export default function Home() {
                 <div className="card-title">Deals related to items you've saved</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/61dpajs_afl._ac_sy200_.jpg" alt="T-Shirt"/><div className="quad-label">Men's T-Shirts</div></div>
-                    <div className="quad-item"><img src="/image/61edij1btcl._ac_sy200_.jpg" alt="T-Shirt"/><div className="quad-label">Full sleeve tees</div></div>
-                    <div className="quad-item"><img src="/image/61eksarcwml._ac_sy200_.jpg" alt="Polo"/><div className="quad-label">Waffle T-Shirts</div></div>
-                    <div className="quad-item"><img src="/image/61pt8xmtiol._ac_sy200_.jpg" alt="Zip Tee"/><div className="quad-label">Zip neck tees</div></div>
+                    <div className="quad-item"><img src="/image/61dpajs_afl._ac_sy200_.jpg" alt="T-Shirt" /><div className="quad-label">Men's T-Shirts</div></div>
+                    <div className="quad-item"><img src="/image/61edij1btcl._ac_sy200_.jpg" alt="T-Shirt" /><div className="quad-label">Full sleeve tees</div></div>
+                    <div className="quad-item"><img src="/image/61eksarcwml._ac_sy200_.jpg" alt="Polo" /><div className="quad-label">Waffle T-Shirts</div></div>
+                    <div className="quad-item"><img src="/image/61pt8xmtiol._ac_sy200_.jpg" alt="Zip Tee" /><div className="quad-label">Zip neck tees</div></div>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">See more deals</Link></div>
@@ -127,10 +96,10 @@ export default function Home() {
                 <div className="card-title">Appliances for your home | Up to 55% off</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/appliances_qc_pc_186x116__b07g5j5fyp._sy116_cb667322346_.jpg" alt="ACs"/><div className="quad-label">Air conditioners</div></div>
-                    <div className="quad-item"><img src="/image/appliances_qc_pc_186x116__b08345r1zw._sy116_cb667322346_.jpg" alt="Refrigerators"/><div className="quad-label">Refrigerators</div></div>
-                    <div className="quad-item"><img src="/image/appliances_qc_pc_186x116__b08rdl6h79._sy116_cb667322346_.jpg" alt="Microwaves"/><div className="quad-label">Microwaves</div></div>
-                    <div className="quad-item"><img src="/image/186x116___wm._sy116_cb667322346_.jpg" alt="Washing machines"/><div className="quad-label">Washing machines</div></div>
+                    <div className="quad-item"><img src="/image/appliances_qc_pc_186x116__b07g5j5fyp._sy116_cb667322346_.jpg" alt="ACs" /><div className="quad-label">Air conditioners</div></div>
+                    <div className="quad-item"><img src="/image/appliances_qc_pc_186x116__b08345r1zw._sy116_cb667322346_.jpg" alt="Refrigerators" /><div className="quad-label">Refrigerators</div></div>
+                    <div className="quad-item"><img src="/image/appliances_qc_pc_186x116__b08rdl6h79._sy116_cb667322346_.jpg" alt="Microwaves" /><div className="quad-label">Microwaves</div></div>
+                    <div className="quad-item"><img src="/image/186x116___wm._sy116_cb667322346_.jpg" alt="Washing machines" /><div className="quad-label">Washing machines</div></div>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">See more</Link></div>
@@ -149,10 +118,10 @@ export default function Home() {
                 <div className="card-title">Revamp your home in style</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/186x116_home_decor_1._sy116_cb555624324_.jpg" alt="Cushions"/><div className="quad-label">Cushion covers, bedsheets & more</div></div>
-                    <div className="quad-item"><img src="/image/186x116_home_furnishings_2._sy116_cb555624324_.jpg" alt="Decor"/><div className="quad-label">Figurines, vases & more</div></div>
-                    <div className="quad-item"><img src="/image/186x116_home_storage_1._sy116_cb555624324_.jpg" alt="Storage"/><div className="quad-label">Home storage</div></div>
-                    <div className="quad-item"><img src="/image/186x116_home_lighting_2._sy116_cb555624324_.jpg" alt="Lighting"/><div className="quad-label">Lighting solutions</div></div>
+                    <div className="quad-item"><img src="/image/186x116_home_decor_1._sy116_cb555624324_.jpg" alt="Cushions" /><div className="quad-label">Cushion covers, bedsheets & more</div></div>
+                    <div className="quad-item"><img src="/image/186x116_home_furnishings_2._sy116_cb555624324_.jpg" alt="Decor" /><div className="quad-label">Figurines, vases & more</div></div>
+                    <div className="quad-item"><img src="/image/186x116_home_storage_1._sy116_cb555624324_.jpg" alt="Storage" /><div className="quad-label">Home storage</div></div>
+                    <div className="quad-item"><img src="/image/186x116_home_lighting_2._sy116_cb555624324_.jpg" alt="Lighting" /><div className="quad-label">Lighting solutions</div></div>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">Explore all</Link></div>
@@ -161,10 +130,10 @@ export default function Home() {
                 <div className="card-title">Starting ₹49 | Deals on home essentials</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/shower_heads_low_res_v1._sy116_cb549138744_.jpg" alt="Cleaning"/><div className="quad-label">Cleaning supplies</div></div>
-                    <div className="quad-item"><img src="/image/wipes_low_res_v1._sy116_cb549138744_.jpg" alt="Bath"/><div className="quad-label">Bathroom accessories</div></div>
-                    <div className="quad-item"><img src="/image/tools_low_res_v1._sy116_cb549138744_.jpg" alt="Tools"/><div className="quad-label">Home tools</div></div>
-                    <div className="quad-item"><img src="/image/wallpapers_low_res_v1._sy116_cb549138744_.jpg" alt="Wallpaper"/><div className="quad-label">Wallpapers</div></div>
+                    <div className="quad-item"><img src="/image/shower_heads_low_res_v1._sy116_cb549138744_.jpg" alt="Cleaning" /><div className="quad-label">Cleaning supplies</div></div>
+                    <div className="quad-item"><img src="/image/wipes_low_res_v1._sy116_cb549138744_.jpg" alt="Bath" /><div className="quad-label">Bathroom accessories</div></div>
+                    <div className="quad-item"><img src="/image/tools_low_res_v1._sy116_cb549138744_.jpg" alt="Tools" /><div className="quad-label">Home tools</div></div>
+                    <div className="quad-item"><img src="/image/wallpapers_low_res_v1._sy116_cb549138744_.jpg" alt="Wallpaper" /><div className="quad-label">Wallpapers</div></div>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">Explore all</Link></div>
@@ -173,10 +142,10 @@ export default function Home() {
                 <div className="card-title">Automotive essentials | Up to 60% off</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/glasscare1x._sy116_cb410830553_.jpg" alt="Glass Care"/><div className="quad-label">Cleaning accessories</div></div>
-                    <div className="quad-item"><img src="/image/rim_tyrecare1x._sy116_cb410830552_.jpg" alt="Tyre Care"/><div className="quad-label">Tyre & rim care</div></div>
-                    <div className="quad-item"><img src="/image/vega_helmet_186x116._sy116_cb405090404_.jpg" alt="Helmets"/><div className="quad-label">Helmets</div></div>
-                    <div className="quad-item"><img src="/image/vaccum1x._sy116_cb410830552_.jpg" alt="Vacuum"/><div className="quad-label">Vacuum cleaner</div></div>
+                    <div className="quad-item"><img src="/image/glasscare1x._sy116_cb410830553_.jpg" alt="Glass Care" /><div className="quad-label">Cleaning accessories</div></div>
+                    <div className="quad-item"><img src="/image/rim_tyrecare1x._sy116_cb410830552_.jpg" alt="Tyre Care" /><div className="quad-label">Tyre & rim care</div></div>
+                    <div className="quad-item"><img src="/image/vega_helmet_186x116._sy116_cb405090404_.jpg" alt="Helmets" /><div className="quad-label">Helmets</div></div>
+                    <div className="quad-item"><img src="/image/vaccum1x._sy116_cb410830552_.jpg" alt="Vacuum" /><div className="quad-label">Vacuum cleaner</div></div>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">See more</Link></div>
@@ -185,10 +154,10 @@ export default function Home() {
                 <div className="card-title">Starting ₹199 | Amazon Brands & more</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_1._sy116_cb567468236_.jpg" alt="Bedsheets"/><div className="quad-label">Starting ₹199 | Bedsheets</div></div>
-                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_2._sy116_cb567468236_.jpg" alt="Curtains"/><div className="quad-label">Starting ₹199 | Curtains</div></div>
-                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_3._sy116_cb567468236_.jpg" alt="Ironing"/><div className="quad-label">Min 40% off | Ironing & more</div></div>
-                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_4._sy116_cb567468236_.jpg" alt="Decor"/><div className="quad-label">Up to 60% off | Home decor</div></div>
+                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_1._sy116_cb567468236_.jpg" alt="Bedsheets" /><div className="quad-label">Starting ₹199 | Bedsheets</div></div>
+                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_2._sy116_cb567468236_.jpg" alt="Curtains" /><div className="quad-label">Starting ₹199 | Curtains</div></div>
+                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_3._sy116_cb567468236_.jpg" alt="Ironing" /><div className="quad-label">Min 40% off | Ironing & more</div></div>
+                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_4._sy116_cb567468236_.jpg" alt="Decor" /><div className="quad-label">Up to 60% off | Home decor</div></div>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">See more</Link></div>
@@ -203,26 +172,24 @@ export default function Home() {
               </div>
               <div className="carousel-viewport">
                 <div className="carousel-track-scroll">
-                  <div className="carousel-item"><img src="/image/619zwdlnnbl._ac_sy200_.jpg" alt="Harley Davidson"/><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Matte Black</div><div className="carousel-item-price">₹2,29,500</div></div>
-                  <div className="carousel-item"><img src="/image/71v61d8jm9l._ac_sy200_.jpg" alt="Harley Red"/><div className="carousel-item-title">HARLEY-DAVIDSON X440 Vivid Metallic Thick Red</div><div className="carousel-item-price">₹2,39,500</div></div>
-                  <div className="carousel-item"><img src="/image/71vwd_zpefl._ac_sy200_.jpg" alt="Harley Orange"/><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Baja Orange</div><div className="carousel-item-price">₹2,29,500</div></div>
-                  <div className="carousel-item"><img src="/image/61163l3zeyl._ac_sy200_.jpg" alt="KTM RC 200"/><div className="carousel-item-title">KTM RC 200 Bike Black</div><div className="carousel-item-price">₹2,17,272</div></div>
-                  <div className="carousel-item"><img src="/image/61zcrvey5al._ac_sy200_.jpg" alt="KTM Duke"/><div className="carousel-item-title">KTM Duke 200 Dark Galvano</div><div className="carousel-item-price">₹2,01,546</div></div>
-                  <div className="carousel-item"><img src="/image/71rcj8dgb_l._ac_sy200_.jpg" alt="Hero Xtreme"/><div className="carousel-item-title">Hero MotoCorp XTREME 125R</div><div className="carousel-item-price">₹95,000</div></div>
-                  <div className="carousel-item"><img src="/image/51uaspahpfl._ac_sy200_.jpg" alt="Bajaj Avenger"/><div className="carousel-item-title">Bajaj Avenger 220 Cruise Moon White</div><div className="carousel-item-price">₹1,42,797</div></div>
-                  <div className="carousel-item"><img src="/image/512jq_6xadl._ac_sy200_.jpg" alt="Pulsar RS"/><div className="carousel-item-title">Bajaj Pulsar RS 200 White</div><div className="carousel-item-price">₹1,72,644</div></div>
+                  <div className="carousel-item"><img src="/image/619zwdlnnbl._ac_sy200_.jpg" alt="Harley Davidson" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Matte Black</div><div className="carousel-item-price">₹2,29,500</div></div>
+                  <div className="carousel-item"><img src="/image/71v61d8jm9l._ac_sy200_.jpg" alt="Harley Red" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 Vivid Metallic Thick Red</div><div className="carousel-item-price">₹2,39,500</div></div>
+                  <div className="carousel-item"><img src="/image/71vwd_zpefl._ac_sy200_.jpg" alt="Harley Orange" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Baja Orange</div><div className="carousel-item-price">₹2,29,500</div></div>
+                  <div className="carousel-item"><img src="/image/61163l3zeyl._ac_sy200_.jpg" alt="KTM RC 200" /><div className="carousel-item-title">KTM RC 200 Bike Black</div><div className="carousel-item-price">₹2,17,272</div></div>
+                  <div className="carousel-item"><img src="/image/61zcrvey5al._ac_sy200_.jpg" alt="KTM Duke" /><div className="carousel-item-title">KTM Duke 200 Dark Galvano</div><div className="carousel-item-price">₹2,01,546</div></div>
+                  <div className="carousel-item"><img src="/image/71rcj8dgb_l._ac_sy200_.jpg" alt="Hero Xtreme" /><div className="carousel-item-title">Hero MotoCorp XTREME 125R</div><div className="carousel-item-price">₹95,000</div></div>
+                  <div className="carousel-item"><img src="/image/51uaspahpfl._ac_sy200_.jpg" alt="Bajaj Avenger" /><div className="carousel-item-title">Bajaj Avenger 220 Cruise Moon White</div><div className="carousel-item-price">₹1,42,797</div></div>
+                  <div className="carousel-item"><img src="/image/512jq_6xadl._ac_sy200_.jpg" alt="Pulsar RS" /><div className="carousel-item-title">Bajaj Pulsar RS 200 White</div><div className="carousel-item-price">₹1,72,644</div></div>
                 </div>
               </div>
             </div>
           </>
         )}
 
-        <Suspense fallback={<div className="loading">Loading...</div>}>
-          <ProductList search={search} category={category} />
-        </Suspense>
+
 
         {!isSearching && (
-          <div className="back-to-top" onClick={() => window.scrollTo({top:0,behavior:'smooth'})}>Back to top</div>
+          <div className="back-to-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to top</div>
         )}
       </div>
 
