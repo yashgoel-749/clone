@@ -24,7 +24,7 @@ export default function ProductCard({ product }) {
           <span className="currency">$</span>
           <span className="amount">{product.price.toLocaleString()}</span>
         </div>
-        <p className="description">{product.description.slice(0, 100)}...</p>
+        <p className="description">{(product.description || "").slice(0, 100)}...</p>
         <button className="btn-primary add-to-cart" onClick={() => addToCart(product)}>
           Add to Cart
         </button>
