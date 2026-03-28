@@ -46,7 +46,7 @@ export default function Header() {
       <nav className="navbar">
         <div className="nav-belt">
           <Link href="/" className="nav-logo" onClick={handleLogoClick}>
-            <span className="nav-logo-text">amazon<span>.in</span></span>
+            <div className="nav-logo-text">amazon<span>.in</span></div>
           </Link>
 
           <div className="nav-location nav-item" onClick={() => setShowLocationModal(true)}>
