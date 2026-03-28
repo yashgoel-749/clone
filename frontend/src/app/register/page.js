@@ -8,17 +8,40 @@ export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { register } = useAuth();
+  
+  const { sendOtp, verifyRegister, googleAuth } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSendOtp = async (e) => {
+    if (e) e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    if (!name || !email || !password) {
+      setError("Please fill all fields");
+      setLoading(false);
+      return;
+    }
+
+    const result = await sendOtp(email);
+    if (result.success) {
+      setOtpSent(true);
+    } else {
+      setError(result.message);
+    }
+    setLoading(false);
+  };
+
+  const handleVerifyAndRegister = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    const result = await register(name, email, password);
+    const result = await verifyRegister(name, email, password, otp);
     if (result.success) {
       router.push('/');
     } else {
@@ -27,140 +50,90 @@ export default function RegisterPage() {
     setLoading(false);
   };
 
+  const handleGoogleAuth = async () => {
+     setError("Registering via Google...");
+     // In a real app, this would trigger Google SDK
+     // Mocking for now as GOOGLE_CLIENT_ID needs to be valid
+     alert("Google OAuth: Redirecting to google.com...");
+  };
+
   return (
-    <div className="auth-container">
-      <div className="auth-box">
-        <h1>Create Account</h1>
-        {error && <div className="auth-error">{error}</div>}
-        <form onSubmit={handleSubmit}>
-          <div className="auth-field">
-            <label>Your Name</label>
-            <input 
-              type="text" 
-              placeholder="First and last name"
-              value={name} 
-              onChange={(e) => setName(e.target.value)} 
-              required 
-            />
+    <div className="a-auth-page">
+      <div className="a-auth-header">
+        <Link href="/">
+          <div className="a-logo-auth">amazon<span>.in</span></div>
+        </Link>
+      </div>
+
+      <div className="a-auth-container">
+        <div className="a-auth-box">
+          <h1 className="a-auth-title">{otpSent ? 'Verify Email' : 'Create Account'}</h1>
+          
+          {otpSent && <p style={{fontSize: '13px', marginBottom: '15px'}}>We've sent a 6-digit code to <b>{email}</b>. Please enter it below.</p>}
+          {error && <div className="a-auth-error">{error}</div>}
+
+          {!otpSent ? (
+            <form onSubmit={handleSendOtp}>
+              <div className="a-auth-field">
+                <label>Your Name</label>
+                <input type="text" className="a-auth-input" placeholder="First and last name" value={name} onChange={(e) => setName(e.target.value)} required />
+              </div>
+              <div className="a-auth-field">
+                <label>Email</label>
+                <input type="email" className="a-auth-input" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              </div>
+              <div className="a-auth-field">
+                <label>Password</label>
+                <input type="password" className="a-auth-input" placeholder="At least 6 characters" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              </div>
+              <button type="submit" disabled={loading} className="a-auth-btn">
+                {loading ? 'Sending OTP...' : 'Verify Email'}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleVerifyAndRegister}>
+              <div className="a-auth-field">
+                <label>Enter OTP</label>
+                <input type="text" className="a-auth-input" maxLength="6" placeholder="6-digit code" value={otp} onChange={(e) => setOtp(e.target.value)} required />
+              </div>
+              <button type="submit" disabled={loading} className="a-auth-btn">
+                {loading ? 'Verifying...' : 'Create your Amazon account'}
+              </button>
+              <p style={{fontSize: '12px', marginTop: '10px', color: '#0066c0', cursor: 'pointer'}} onClick={handleSendOtp}>Resend OTP</p>
+            </form>
+          )}
+
+          <p className="a-auth-disclaimer">
+            By creating an account, you agree to Amazon's <Link href="#">Conditions of Use</Link> and <Link href="#">Privacy Notice</Link>.
+          </p>
+
+          <div className="a-auth-divider-container">
+             <hr className="a-auth-divider" />
+             <span className="a-auth-divider-text">Or continue with</span>
           </div>
-          <div className="auth-field">
-            <label>Email</label>
-            <input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
-            />
-          </div>
-          <div className="auth-field">
-            <label>Password</label>
-            <input 
-              type="password" 
-              placeholder="At least 6 characters"
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-            />
-          </div>
-          <button type="submit" disabled={loading} className="auth-btn">
-            {loading ? 'Processing...' : 'Verify Email'}
+
+          <button className="a-google-btn" onClick={handleGoogleAuth}>
+             <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google" />
+             Sign in with Google
           </button>
-        </form>
-        <p className="auth-disclaimer">
-          By creating an account, you agree to Amazon's Conditions of Use and Privacy Notice.
-        </p>
-        <hr className="auth-divider" />
-        <p className="auth-footer">
-          Already have an account? <Link href="/login">Sign-In</Link>
+        </div>
+
+        <div className="a-auth-divider-small"></div>
+        <p style={{fontSize: '13px', textAlign: 'center'}}>
+          Already have an account? <Link href="/login" style={{color: '#0066c0', textDecoration: 'none'}}>Sign-In ❯</Link>
         </p>
       </div>
 
-      <style jsx>{`
-        .auth-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 20px;
-          min-height: 80vh;
-          background: #fff;
-        }
-        .auth-box {
-          border: 1px solid #ddd;
-          padding: 20px 25px;
-          width: 350px;
-          border-radius: 8px;
-          margin-bottom: 20px;
-        }
-        h1 {
-          font-size: 28px;
-          font-weight: 500;
-          margin-bottom: 20px;
-        }
-        .auth-field {
-          margin-bottom: 15px;
-        }
-        label {
-          display: block;
-          font-weight: 700;
-          font-size: 13px;
-          margin-bottom: 5px;
-        }
-        input {
-          width: 100%;
-          padding: 8px;
-          border: 1px solid #a6a6a6;
-          border-radius: 3px;
-          font-size: 13px;
-        }
-        input:focus {
-          outline: none;
-          box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
-          border-color: #e77600;
-        }
-        .auth-btn {
-          width: 100%;
-          background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
-          border: 1px solid #a88734;
-          padding: 8px;
-          border-radius: 3px;
-          cursor: pointer;
-          font-size: 13px;
-          margin-top: 5px;
-        }
-        .auth-btn:hover {
-          background: linear-gradient(to bottom, #f5d78e, #eeb933);
-        }
-        .auth-disclaimer {
-          font-size: 12px;
-          margin-top: 15px;
-          line-height: 1.5;
-        }
-        .auth-error {
-          padding: 10px;
-          background: #fdf0f0;
-          border: 1px solid #c40000;
-          border-radius: 4px;
-          color: #c40000;
-          font-size: 13px;
-          margin-bottom: 15px;
-        }
-        .auth-divider {
-          border: 0;
-          border-top: 1px solid #e7e7e7;
-          margin: 20px 0;
-        }
-        .auth-footer {
-          font-size: 13px;
-        }
-        .auth-footer a {
-          color: #0066c0;
-          text-decoration: none;
-        }
-        .auth-footer a:hover {
-          text-decoration: underline;
-          color: #c45500;
-        }
-      `}</style>
+      <div className="a-auth-footer">
+        <div className="a-auth-footer-links">
+          <Link href="#">Conditions of Use</Link>
+          <Link href="#">Privacy Notice</Link>
+          <Link href="#">Help</Link>
+        </div>
+        <div className="a-auth-footer-copyright">
+          © 1996–2026, Amazon.com, Inc. or its affiliates
+        </div>
+      </div>
     </div>
   );
 }

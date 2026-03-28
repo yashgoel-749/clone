@@ -72,10 +72,22 @@ export default function Home() {
                 <div className="card-title">Continue shopping deals</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/81cnrbuek7l._ac_sy200_.jpg" alt="Keyboard Rest" /><div className="quad-label">Keyboard accessories</div></div>
-                    <div className="quad-item"><img src="/image/511nzqxi0sl._ac_sy200_.jpg" alt="Mouse Pad" /><div className="quad-label">Mouse pads</div></div>
-                    <div className="quad-item"><img src="/image/71ewwwqoiql._ac_sy200_.jpg" alt="Mechanical Keyboard" /><div className="quad-label">Mechanical keyboards</div></div>
-                    <div className="quad-item"><img src="/image/41yffsrplzl._ac_sy200_.jpg" alt="Wrist Rest" /><div className="quad-label">Wrist rest sets</div></div>
+                    <Link href="/product/keyboard-acc-1" className="quad-item">
+                      <img src="/image/81cnrbuek7l._ac_sy200_.jpg" alt="Keyboard Rest" />
+                      <div className="quad-label">Keyboard accessories</div>
+                    </Link>
+                    <Link href="/product/mouse-pad-1" className="quad-item">
+                      <img src="/image/511nzqxi0sl._ac_sy200_.jpg" alt="Mouse Pad" />
+                      <div className="quad-label">Mouse pads</div>
+                    </Link>
+                    <Link href="/product/mech-kb-1" className="quad-item">
+                      <img src="/image/71ewwwqoiql._ac_sy200_.jpg" alt="Mechanical Keyboard" />
+                      <div className="quad-label">Mechanical keyboards</div>
+                    </Link>
+                    <Link href="/product/wrist-rest-1" className="quad-item">
+                      <img src="/image/41yffsrplzl._ac_sy200_.jpg" alt="Wrist Rest" />
+                      <div className="quad-label">Wrist rest sets</div>
+                    </Link>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">See more deals</Link></div>
@@ -84,10 +96,22 @@ export default function Home() {
                 <div className="card-title">Deals related to items you've saved</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/61dpajs_afl._ac_sy200_.jpg" alt="T-Shirt" /><div className="quad-label">Men's T-Shirts</div></div>
-                    <div className="quad-item"><img src="/image/61edij1btcl._ac_sy200_.jpg" alt="T-Shirt" /><div className="quad-label">Full sleeve tees</div></div>
-                    <div className="quad-item"><img src="/image/61eksarcwml._ac_sy200_.jpg" alt="Polo" /><div className="quad-label">Waffle T-Shirts</div></div>
-                    <div className="quad-item"><img src="/image/61pt8xmtiol._ac_sy200_.jpg" alt="Zip Tee" /><div className="quad-label">Zip neck tees</div></div>
+                    <Link href="/product/tshirt-1" className="quad-item">
+                      <img src="/image/61dpajs_afl._ac_sy200_.jpg" alt="T-Shirt" />
+                      <div className="quad-label">Men's T-Shirts</div>
+                    </Link>
+                    <Link href="/product/tees-1" className="quad-item">
+                      <img src="/image/61edij1btcl._ac_sy200_.jpg" alt="T-Shirt" />
+                      <div className="quad-label">Full sleeve tees</div>
+                    </Link>
+                    <Link href="/product/waffle-1" className="quad-item">
+                      <img src="/image/61eksarcwml._ac_sy200_.jpg" alt="Polo" />
+                      <div className="quad-label">Waffle T-Shirts</div>
+                    </Link>
+                    <Link href="/product/zip-tee-1" className="quad-item">
+                      <img src="/image/61pt8xmtiol._ac_sy200_.jpg" alt="Zip Tee" />
+                      <div className="quad-label">Zip neck tees</div>
+                    </Link>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">See more deals</Link></div>
@@ -96,10 +120,22 @@ export default function Home() {
                 <div className="card-title">Appliances for your home | Up to 55% off</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/appliances_qc_pc_186x116__b07g5j5fyp._sy116_cb667322346_.jpg" alt="ACs" /><div className="quad-label">Air conditioners</div></div>
-                    <div className="quad-item"><img src="/image/appliances_qc_pc_186x116__b08345r1zw._sy116_cb667322346_.jpg" alt="Refrigerators" /><div className="quad-label">Refrigerators</div></div>
-                    <div className="quad-item"><img src="/image/appliances_qc_pc_186x116__b08rdl6h79._sy116_cb667322346_.jpg" alt="Microwaves" /><div className="quad-label">Microwaves</div></div>
-                    <div className="quad-item"><img src="/image/186x116___wm._sy116_cb667322346_.jpg" alt="Washing machines" /><div className="quad-label">Washing machines</div></div>
+                    <Link href="/product/ac-1" className="quad-item">
+                      <img src="/image/appliances_qc_pc_186x116__b07g5j5fyp._sy116_cb667322346_.jpg" alt="ACs" />
+                      <div className="quad-label">Air conditioners</div>
+                    </Link>
+                    <Link href="/product/fridge-1" className="quad-item">
+                      <img src="/image/appliances_qc_pc_186x116__b08345r1zw._sy116_cb667322346_.jpg" alt="Refrigerators" />
+                      <div className="quad-label">Refrigerators</div>
+                    </Link>
+                    <Link href="/product/micro-1" className="quad-item">
+                      <img src="/image/appliances_qc_pc_186x116__b08rdl6h79._sy116_cb667322346_.jpg" alt="Microwaves" />
+                      <div className="quad-label">Microwaves</div>
+                    </Link>
+                    <Link href="/product/wm-1" className="quad-item">
+                      <img src="/image/186x116___wm._sy116_cb667322346_.jpg" alt="Washing machines" />
+                      <div className="quad-label">Washing machines</div>
+                    </Link>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">See more</Link></div>
@@ -118,14 +154,27 @@ export default function Home() {
                 <div className="card-title">Revamp your home in style</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/186x116_home_decor_1._sy116_cb555624324_.jpg" alt="Cushions" /><div className="quad-label">Cushion covers, bedsheets & more</div></div>
-                    <div className="quad-item"><img src="/image/186x116_home_furnishings_2._sy116_cb555624324_.jpg" alt="Decor" /><div className="quad-label">Figurines, vases & more</div></div>
-                    <div className="quad-item"><img src="/image/186x116_home_storage_1._sy116_cb555624324_.jpg" alt="Storage" /><div className="quad-label">Home storage</div></div>
-                    <div className="quad-item"><img src="/image/186x116_home_lighting_2._sy116_cb555624324_.jpg" alt="Lighting" /><div className="quad-label">Lighting solutions</div></div>
+                    <Link href="/product/shoe-rack-1" className="quad-item"> {/* Updated to Nilkamal Example */}
+                      <img src="/image/186x116_home_storage_1._sy116_cb555624324_.jpg" alt="Storage" />
+                      <div className="quad-label">Home storage & Racks</div>
+                    </Link>
+                    <Link href="/product/cushion-1" className="quad-item">
+                      <img src="/image/186x116_home_decor_1._sy116_cb555624324_.jpg" alt="Cushions" />
+                      <div className="quad-label">Cushion covers & more</div>
+                    </Link>
+                    <Link href="/product/vases-1" className="quad-item">
+                      <img src="/image/186x116_home_furnishings_2._sy116_cb555624324_.jpg" alt="Decor" />
+                      <div className="quad-label">Figurines, vases & more</div>
+                    </Link>
+                    <Link href="/product/lighting-1" className="quad-item">
+                      <img src="/image/186x116_home_lighting_2._sy116_cb555624324_.jpg" alt="Lighting" />
+                      <div className="quad-label">Lighting solutions</div>
+                    </Link>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">Explore all</Link></div>
               </div>
+
               <div className="card">
                 <div className="card-title">Starting ₹49 | Deals on home essentials</div>
                 <div className="card-body">

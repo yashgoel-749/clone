@@ -36,13 +36,13 @@ export default function LoginPage() {
 
       <div className="a-auth-container">
         <div className="a-auth-box">
-          <h1 className="a-auth-title">Sign in or create account</h1>
+          <h1 className="a-auth-title">Sign in</h1>
           
           {error && <div className="a-auth-error">{error}</div>}
           
           <form onSubmit={handleSubmit}>
             <div className="a-auth-field">
-              <label>Enter mobile number or email</label>
+              <label>Email or mobile phone number</label>
               <input 
                 type="email" 
                 value={email} 
@@ -52,7 +52,7 @@ export default function LoginPage() {
               />
             </div>
 
-            <div className="a-auth-field password-field">
+            <div className="a-auth-field">
               <label>Password</label>
               <input 
                 type="password" 
@@ -63,25 +63,25 @@ export default function LoginPage() {
               />
             </div>
 
-            <button type="submit" disabled={loading} className="a-auth-continue-btn">
+            <button type="submit" disabled={loading} className="a-auth-btn">
               {loading ? 'Please wait...' : 'Continue'}
             </button>
           </form>
 
           <p className="a-auth-disclaimer">
-            By continuing, you agree to Amazon's <Link href="#">Conditions of Use</Link> and <Link href="#">Privacy Notice</Link>.
+            By continuing, you agree to Amazon's <Link href="#" style={{color: '#0066c0', textDecoration: 'none'}}>Conditions of Use</Link> and <Link href="#" style={{color: '#0066c0', textDecoration: 'none'}}>Privacy Notice</Link>.
           </p>
 
           <div className="a-auth-divider-small"></div>
           
-          <div className="a-auth-work-section">
-            <span className="a-auth-work-title">Buying for work?</span>
-            <Link href="#" className="a-auth-work-link">Create a free business account</Link>
+          <div style={{fontSize: '13px'}}>
+            <span style={{fontWeight: '700'}}>Buying for work?</span><br/>
+            <Link href="#" style={{color: '#0066c0', textDecoration: 'none'}}>Shop on Amazon Business</Link>
           </div>
         </div>
 
-        <div className="a-auth-divider">
-          <h5>New to Amazon?</h5>
+        <div className="a-auth-new-divider">
+          <span>New to Amazon?</span>
         </div>
         
         <Link href="/register" className="a-auth-register-link">
@@ -91,9 +91,9 @@ export default function LoginPage() {
 
       <div className="a-auth-footer">
         <div className="a-auth-footer-links">
-          <Link href="#">Conditions of Use</Link>
-          <Link href="#">Privacy Notice</Link>
-          <Link href="#">Help</Link>
+          <Link href="#" style={{color: '#0066c0', textDecoration: 'none', fontSize: '11px'}}>Conditions of Use</Link>
+          <Link href="#" style={{color: '#0066c0', textDecoration: 'none', fontSize: '11px'}}>Privacy Notice</Link>
+          <Link href="#" style={{color: '#0066c0', textDecoration: 'none', fontSize: '11px'}}>Help</Link>
         </div>
         <div className="a-auth-footer-copyright">
           © 1996–2026, Amazon.com, Inc. or its affiliates
