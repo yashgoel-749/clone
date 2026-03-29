@@ -221,14 +221,14 @@ export default function Home() {
               </div>
               <div className="carousel-viewport">
                 <div className="carousel-track-scroll">
-                  <div className="carousel-item"><img src="/image/619zwdlnnbl._ac_sy200_.jpg" alt="Harley Davidson" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Matte Black</div><div className="carousel-item-price">₹2,29,500</div></div>
-                  <div className="carousel-item"><img src="/image/71v61d8jm9l._ac_sy200_.jpg" alt="Harley Red" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 Vivid Metallic Thick Red</div><div className="carousel-item-price">₹2,39,500</div></div>
-                  <div className="carousel-item"><img src="/image/71vwd_zpefl._ac_sy200_.jpg" alt="Harley Orange" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Baja Orange</div><div className="carousel-item-price">₹2,29,500</div></div>
-                  <div className="carousel-item"><img src="/image/61163l3zeyl._ac_sy200_.jpg" alt="KTM RC 200" /><div className="carousel-item-title">KTM RC 200 Bike Black</div><div className="carousel-item-price">₹2,17,272</div></div>
-                  <div className="carousel-item"><img src="/image/61zcrvey5al._ac_sy200_.jpg" alt="KTM Duke" /><div className="carousel-item-title">KTM Duke 200 Dark Galvano</div><div className="carousel-item-price">₹2,01,546</div></div>
-                  <div className="carousel-item"><img src="/image/71rcj8dgb_l._ac_sy200_.jpg" alt="Hero Xtreme" /><div className="carousel-item-title">Hero MotoCorp XTREME 125R</div><div className="carousel-item-price">₹95,000</div></div>
-                  <div className="carousel-item"><img src="/image/51uaspahpfl._ac_sy200_.jpg" alt="Bajaj Avenger" /><div className="carousel-item-title">Bajaj Avenger 220 Cruise Moon White</div><div className="carousel-item-price">₹1,42,797</div></div>
-                  <div className="carousel-item"><img src="/image/512jq_6xadl._ac_sy200_.jpg" alt="Pulsar RS" /><div className="carousel-item-title">Bajaj Pulsar RS 200 White</div><div className="carousel-item-price">₹1,72,644</div></div>
+                  <Link href="/product/harley-black" className="carousel-item"><img src="/image/619zwdlnnbl._ac_sy200_.jpg" alt="Harley Davidson" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Matte Black</div><div className="carousel-item-price">₹2,29,500</div></Link>
+                  <Link href="/product/harley-black" className="carousel-item"><img src="/image/71v61d8jm9l._ac_sy200_.jpg" alt="Harley Red" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 Vivid Metallic Thick Red</div><div className="carousel-item-price">₹2,39,500</div></Link>
+                  <Link href="/product/harley-black" className="carousel-item"><img src="/image/71vwd_zpefl._ac_sy200_.jpg" alt="Harley Orange" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Baja Orange</div><div className="carousel-item-price">₹2,29,500</div></Link>
+                  <Link href="/product/ktm-rc200" className="carousel-item"><img src="/image/61163l3zeyl._ac_sy200_.jpg" alt="KTM RC 200" /><div className="carousel-item-title">KTM RC 200 Bike Black</div><div className="carousel-item-price">₹2,17,272</div></Link>
+                  <Link href="/product/ktm-rc200" className="carousel-item"><img src="/image/61zcrvey5al._ac_sy200_.jpg" alt="KTM Duke" /><div className="carousel-item-title">KTM Duke 200 Dark Galvano</div><div className="carousel-item-price">₹2,01,546</div></Link>
+                  <Link href="/product/hero-xtreme" className="carousel-item"><img src="/image/71rcj8dgb_l._ac_sy200_.jpg" alt="Hero Xtreme" /><div className="carousel-item-title">Hero MotoCorp XTREME 125R</div><div className="carousel-item-price">₹95,000</div></Link>
+                  <Link href="/product/hero-xtreme" className="carousel-item"><img src="/image/51uaspahpfl._ac_sy200_.jpg" alt="Bajaj Avenger" /><div className="carousel-item-title">Bajaj Avenger 220 Cruise Moon White</div><div className="carousel-item-price">₹1,42,797</div></Link>
+                  <Link href="/product/hero-xtreme" className="carousel-item"><img src="/image/512jq_6xadl._ac_sy200_.jpg" alt="Pulsar RS" /><div className="carousel-item-title">Bajaj Pulsar RS 200 White</div><div className="carousel-item-price">₹1,72,644</div></Link>
                 </div>
               </div>
             </div>
