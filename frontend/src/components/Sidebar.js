@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { sidebarSections } from '@/data/navigationData';
 
 const Sidebar = ({ isOpen, onClose, user }) => {
   const [mounted, setMounted] = useState(false);
@@ -23,51 +24,29 @@ const Sidebar = ({ isOpen, onClose, user }) => {
         </div>
 
         <div className="side-content">
-          <div className="side-section">
-            <div className="side-title">Trending</div>
-            <Link href="/" onClick={onClose}>Bestsellers</Link>
-            <Link href="/" onClick={onClose}>New Releases</Link>
-            <Link href="/" onClick={onClose}>Movers and Shakers</Link>
-          </div>
+          {sidebarSections.map((section, sIdx) => (
+            <React.Fragment key={sIdx}>
+              {sIdx > 0 && <div className="side-divider"></div>}
+              <div className="side-section">
+                <div className="side-title">{section.title}</div>
+                {section.items.map((item, iIdx) => (
+                  item.arrow ? (
+                    <Link key={iIdx} href={item.href} className="side-item-arrow" onClick={onClose}>
+                      {item.label} <span>›</span>
+                    </Link>
+                  ) : (
+                    <Link key={iIdx} href={item.href} onClick={onClose}>
+                      {item.label}
+                    </Link>
+                  )
+                ))}
+              </div>
+            </React.Fragment>
+          ))}
 
+          {/* Auth-dependent item at the end */}
           <div className="side-divider"></div>
-
           <div className="side-section">
-            <div className="side-title">Digital Content and Devices</div>
-            <div className="side-item-arrow">Echo & Alexa <span>›</span></div>
-            <div className="side-item-arrow">Fire TV <span>›</span></div>
-            <div className="side-item-arrow">Kindle E-Readers & eBooks <span>›</span></div>
-            <div className="side-item-arrow">Audible Audiobooks <span>›</span></div>
-            <div className="side-item-arrow">Amazon Prime Video <span>›</span></div>
-            <div className="side-item-arrow">Amazon Prime Music <span>›</span></div>
-          </div>
-
-          <div className="side-divider"></div>
-
-          <div className="side-section">
-            <div className="side-title">Shop by Category</div>
-            <div className="side-item-arrow">Mobiles, Computers <span>›</span></div>
-            <div className="side-item-arrow">TV, Appliances, Electronics <span>›</span></div>
-            <div className="side-item-arrow">Men's Fashion <span>›</span></div>
-            <div className="side-item-arrow">Women's Fashion <span>›</span></div>
-            <div className="side-item-arrow">See all <span className="down">▾</span></div>
-          </div>
-
-          <div className="side-divider"></div>
-
-          <div className="side-section">
-            <div className="side-title">Programs & Features</div>
-            <div className="side-item-arrow">Gift Cards & Mobile Recharges <span>›</span></div>
-            <div className="side-item-arrow">Amazon Launchpad <span>›</span></div>
-            <div className="side-item-arrow">Amazon Business <span>›</span></div>
-          </div>
-
-          <div className="side-divider"></div>
-
-          <div className="side-section">
-            <div className="side-title">Help & Settings</div>
-            <Link href="/account" onClick={onClose}>Your Account</Link>
-            <Link href="#" onClick={onClose}>Customer Service</Link>
             {mounted && user ? (
               <div className="side-item" onClick={onClose}>Sign Out</div>
             ) : (

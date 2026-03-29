@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import Sidebar from './Sidebar';
+import { searchCategories, subNavItems } from '@/data/navigationData';
 
 export default function Header() {
   const { cartItems } = useCart();
@@ -46,13 +47,10 @@ export default function Header() {
     if (category !== "all") {
       query += `&category=${category}`;
     }
-    
-    // Explicitly blur the active element to remove the focus UI state
     if (typeof document !== 'undefined' && document.activeElement && document.activeElement.blur) {
       document.activeElement.blur();
     }
     setIsSearchFocused(false);
-
     router.push(query);
   };
 
@@ -62,11 +60,6 @@ export default function Header() {
   };
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-
-  const categories = [
-    "All", "Keyboards", "Electronics", "Mobiles", "Computers", "Fashion",
-    "Home & Kitchen", "Beauty", "Books", "Appliances", "Toys & Games", "Sports & Fitness"
-  ];
 
   return (
     <>
@@ -82,9 +75,13 @@ export default function Header() {
           </div>
 
           <div className="nav-location nav-item desktop-only" onClick={() => setShowLocationModal(true)}>
-            <span className="nav-loc-icon"></span>
+            <span className="nav-loc-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20" fill="#fff" width="14" height="18">
+                <path d="M8 0C3.6 0 0 3.4 0 7.6c0 5.7 8 12.4 8 12.4s8-6.7 8-12.4C16 3.4 12.4 0 8 0zm0 10.3c-1.5 0-2.7-1.2-2.7-2.7S6.5 4.9 8 4.9s2.7 1.2 2.7 2.7S9.5 10.3 8 10.3z"/>
+              </svg>
+            </span>
             <div>
-              <span className="nav-loc-line1">Delivering to Chandigarh 140603</span>
+              <span className="nav-loc-line1">Delivering to Mohali 160059</span>
               <span className="nav-loc-line2">Update location</span>
             </div>
           </div>
@@ -99,9 +96,10 @@ export default function Header() {
                 onBlur={() => setIsSearchFocused(false)}
                 aria-label="Search category"
               >
-                <option value="all">All Categories</option>
-                {categories.slice(1).map((cat, i) => (
-                  <option key={i} value={cat.toLowerCase()}>{cat}</option>
+                {searchCategories.map((cat, i) => (
+                  <option key={i} value={i === 0 ? "all" : cat.toLowerCase()}>
+                    {cat}
+                  </option>
                 ))}
               </select>
               <input
@@ -130,12 +128,12 @@ export default function Header() {
               {user ? (
                 <div className="nav-item">
                   <span className="nav-item-line1 mobile-hidden">Hello, {user.name}</span>
-                  <span className="nav-item-line2">Sign in <span className="nav-user-icon">👤</span><span className="nav-arrow mobile-hidden">▾</span></span>
+                  <span className="nav-item-line2">Account & Lists <span className="nav-arrow mobile-hidden">▾</span></span>
                 </div>
               ) : (
                 <Link href="/login" className="nav-item">
                   <span className="nav-item-line1 mobile-hidden">Hello, sign in</span>
-                  <span className="nav-item-line2">Sign in <span className="nav-user-icon">👤</span><span className="nav-arrow mobile-hidden">▾</span></span>
+                  <span className="nav-item-line2">Account & Lists <span className="nav-arrow mobile-hidden">▾</span></span>
                 </Link>
               )}
 
@@ -191,7 +189,7 @@ export default function Header() {
         {/* MOBILE THIRD ROW: LOCATION */}
         <div className="nav-location-row-mobile mobile-only" onClick={() => setShowLocationModal(true)}>
            <span className="nav-loc-icon">📍</span>
-           <span className="nav-loc-text">Delivering to New York 10001</span>
+           <span className="nav-loc-text">Delivering to Mohali 160059</span>
         </div>
       </nav>
 
@@ -200,19 +198,11 @@ export default function Header() {
           <div className="sub-nav-item sub-nav-all" onClick={() => setIsSidebarOpen(true)}>
             <span className="hamburger">☰</span> All
           </div>
-          <div className="sub-nav-item">Fresh</div>
-          <div className="sub-nav-item">MX Player</div>
-          <div className="sub-nav-item">Sell</div>
-          <div className="sub-nav-item">Bestsellers</div>
-          <div className="sub-nav-item">Mobiles</div>
-          <div className="sub-nav-item">Today's Deals</div>
-          <div className="sub-nav-item">Customer Service</div>
-          <div className="sub-nav-item">Prime</div>
-          <div className="sub-nav-item">New Releases</div>
-          <div className="sub-nav-item">Fashion</div>
-          <div className="sub-nav-item">Electronics</div>
-          <div className="sub-nav-item">Amazon Pay</div>
-          <div className="sub-nav-item">Home & Kitchen</div>
+          {subNavItems.map((item, i) => (
+            <Link key={i} href={item.href} className="sub-nav-item">
+              {item.label}
+            </Link>
+          ))}
         </div>
       </div>
 
