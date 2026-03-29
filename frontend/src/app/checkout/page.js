@@ -1,11 +1,15 @@
 "use client";
 import React, { useState } from 'react';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function Checkout() {
   const { cartItems, subtotal, clearCart } = useCart();
+  const { user } = useAuth();
   const router = useRouter();
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+  
   const [formData, setFormData] = useState({
     fullName: '',
     address: '',
@@ -26,13 +30,14 @@ export default function Checkout() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch(`${API_URL}/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           cart: cartItems,
           shippingInfo: formData,
-          total: subtotal + 5.99 // total price with shipping fee
+          total: subtotal + 5.99,
+          userId: user?.id
         })
       });
 

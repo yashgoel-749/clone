@@ -119,9 +119,9 @@ export default function ProductDetails() {
       <div className="a-pdp-container">
         {/* Breadcrumbs */}
         <div className="a-breadcrumbs">
-          <Link href="/">Home & Kitchen</Link> &rsaquo; 
-          <Link href="/">{product.category}</Link> &rsaquo; 
-          <Link href="/">{product.subCategory || "Essentials"}</Link>
+          <Link href="/">Home</Link> &rsaquo; 
+          <Link href={`/?category=${encodeURIComponent(product.category)}`}>{product.category}</Link> &rsaquo; 
+          <Link href="#">{product.sub_category || product.subCategory || "Essentials"}</Link>
         </div>
 
         <div className="a-pdp-main-grid">

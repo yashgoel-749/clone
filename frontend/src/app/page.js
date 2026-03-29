@@ -179,10 +179,10 @@ export default function Home() {
                 <div className="card-title">Starting ₹49 | Deals on home essentials</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/shower_heads_low_res_v1._sy116_cb549138744_.jpg" alt="Cleaning" /><div className="quad-label">Cleaning supplies</div></div>
-                    <div className="quad-item"><img src="/image/wipes_low_res_v1._sy116_cb549138744_.jpg" alt="Bath" /><div className="quad-label">Bathroom accessories</div></div>
-                    <div className="quad-item"><img src="/image/tools_low_res_v1._sy116_cb549138744_.jpg" alt="Tools" /><div className="quad-label">Home tools</div></div>
-                    <div className="quad-item"><img src="/image/wallpapers_low_res_v1._sy116_cb549138744_.jpg" alt="Wallpaper" /><div className="quad-label">Wallpapers</div></div>
+                    <Link href="/product/cleaning-1" className="quad-item"><img src="/image/shower_heads_low_res_v1._sy116_cb549138744_.jpg" alt="Cleaning" /><div className="quad-label">Cleaning supplies</div></Link>
+                    <Link href="/product/bath-1" className="quad-item"><img src="/image/wipes_low_res_v1._sy116_cb549138744_.jpg" alt="Bath" /><div className="quad-label">Bathroom accessories</div></Link>
+                    <Link href="/product/tools-1" className="quad-item"><img src="/image/tools_low_res_v1._sy116_cb549138744_.jpg" alt="Tools" /><div className="quad-label">Home tools</div></Link>
+                    <Link href="/product/wallpapers-1" className="quad-item"><img src="/image/wallpapers_low_res_v1._sy116_cb549138744_.jpg" alt="Wallpaper" /><div className="quad-label">Wallpapers</div></Link>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">Explore all</Link></div>
@@ -191,10 +191,10 @@ export default function Home() {
                 <div className="card-title">Automotive essentials | Up to 60% off</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/glasscare1x._sy116_cb410830553_.jpg" alt="Glass Care" /><div className="quad-label">Cleaning accessories</div></div>
-                    <div className="quad-item"><img src="/image/rim_tyrecare1x._sy116_cb410830552_.jpg" alt="Tyre Care" /><div className="quad-label">Tyre & rim care</div></div>
-                    <div className="quad-item"><img src="/image/vega_helmet_186x116._sy116_cb405090404_.jpg" alt="Helmets" /><div className="quad-label">Helmets</div></div>
-                    <div className="quad-item"><img src="/image/vaccum1x._sy116_cb410830552_.jpg" alt="Vacuum" /><div className="quad-label">Vacuum cleaner</div></div>
+                    <Link href="/product/automotive-cleaning-1" className="quad-item"><img src="/image/glasscare1x._sy116_cb410830553_.jpg" alt="Glass Care" /><div className="quad-label">Cleaning accessories</div></Link>
+                    <Link href="/product/tire-care-1" className="quad-item"><img src="/image/rim_tyrecare1x._sy116_cb410830552_.jpg" alt="Tyre Care" /><div className="quad-label">Tyre & rim care</div></Link>
+                    <Link href="/product/helmet-1" className="quad-item"><img src="/image/vega_helmet_186x116._sy116_cb405090404_.jpg" alt="Helmets" /><div className="quad-label">Helmets</div></Link>
+                    <Link href="/product/vacuum-1" className="quad-item"><img src="/image/vaccum1x._sy116_cb410830552_.jpg" alt="Vacuum" /><div className="quad-label">Vacuum cleaner</div></Link>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">See more</Link></div>
@@ -203,10 +203,10 @@ export default function Home() {
                 <div className="card-title">Starting ₹199 | Amazon Brands & more</div>
                 <div className="card-body">
                   <div className="quad-grid">
-                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_1._sy116_cb567468236_.jpg" alt="Bedsheets" /><div className="quad-label">Starting ₹199 | Bedsheets</div></div>
-                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_2._sy116_cb567468236_.jpg" alt="Curtains" /><div className="quad-label">Starting ₹199 | Curtains</div></div>
-                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_3._sy116_cb567468236_.jpg" alt="Ironing" /><div className="quad-label">Min 40% off | Ironing & more</div></div>
-                    <div className="quad-item"><img src="/image/pc_qc_home_size_186_4._sy116_cb567468236_.jpg" alt="Decor" /><div className="quad-label">Up to 60% off | Home decor</div></div>
+                    <Link href="/product/bedsheet-1" className="quad-item"><img src="/image/pc_qc_home_size_186_1._sy116_cb567468236_.jpg" alt="Bedsheets" /><div className="quad-label">Starting ₹199 | Bedsheets</div></Link>
+                    <Link href="/product/curtain-1" className="quad-item"><img src="/image/pc_qc_home_size_186_2._sy116_cb567468236_.jpg" alt="Curtains" /><div className="quad-label">Starting ₹199 | Curtains</div></Link>
+                    <Link href="/product/ironing-1" className="quad-item"><img src="/image/pc_qc_home_size_186_3._sy116_cb567468236_.jpg" alt="Ironing" /><div className="quad-label">Min 40% off | Ironing & more</div></Link>
+                    <Link href="/product/decor-1" className="quad-item"><img src="/image/pc_qc_home_size_186_4._sy116_cb567468236_.jpg" alt="Decor" /><div className="quad-label">Up to 60% off | Home decor</div></Link>
                   </div>
                 </div>
                 <div className="card-footer"><Link href="#">See more</Link></div>
@@ -221,14 +221,14 @@ export default function Home() {
               </div>
               <div className="carousel-viewport">
                 <div className="carousel-track-scroll">
-                  <div className="carousel-item"><img src="/image/619zwdlnnbl._ac_sy200_.jpg" alt="Harley Davidson" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Matte Black</div><div className="carousel-item-price">₹2,29,500</div></div>
-                  <div className="carousel-item"><img src="/image/71v61d8jm9l._ac_sy200_.jpg" alt="Harley Red" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 Vivid Metallic Thick Red</div><div className="carousel-item-price">₹2,39,500</div></div>
-                  <div className="carousel-item"><img src="/image/71vwd_zpefl._ac_sy200_.jpg" alt="Harley Orange" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Baja Orange</div><div className="carousel-item-price">₹2,29,500</div></div>
-                  <div className="carousel-item"><img src="/image/61163l3zeyl._ac_sy200_.jpg" alt="KTM RC 200" /><div className="carousel-item-title">KTM RC 200 Bike Black</div><div className="carousel-item-price">₹2,17,272</div></div>
-                  <div className="carousel-item"><img src="/image/61zcrvey5al._ac_sy200_.jpg" alt="KTM Duke" /><div className="carousel-item-title">KTM Duke 200 Dark Galvano</div><div className="carousel-item-price">₹2,01,546</div></div>
-                  <div className="carousel-item"><img src="/image/71rcj8dgb_l._ac_sy200_.jpg" alt="Hero Xtreme" /><div className="carousel-item-title">Hero MotoCorp XTREME 125R</div><div className="carousel-item-price">₹95,000</div></div>
-                  <div className="carousel-item"><img src="/image/51uaspahpfl._ac_sy200_.jpg" alt="Bajaj Avenger" /><div className="carousel-item-title">Bajaj Avenger 220 Cruise Moon White</div><div className="carousel-item-price">₹1,42,797</div></div>
-                  <div className="carousel-item"><img src="/image/512jq_6xadl._ac_sy200_.jpg" alt="Pulsar RS" /><div className="carousel-item-title">Bajaj Pulsar RS 200 White</div><div className="carousel-item-price">₹1,72,644</div></div>
+                  <Link href="/product/harley-1" className="carousel-item"><img src="/image/619zwdlnnbl._ac_sy200_.jpg" alt="Harley Davidson" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Matte Black</div><div className="carousel-item-price">₹2,29,500</div></Link>
+                  <Link href="/product/harley-2" className="carousel-item"><img src="/image/71v61d8jm9l._ac_sy200_.jpg" alt="Harley Red" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 Vivid Metallic Thick Red</div><div className="carousel-item-price">₹2,39,500</div></Link>
+                  <Link href="/product/harley-3" className="carousel-item"><img src="/product/harley-3" alt="Harley Orange" /><div className="carousel-item-title">HARLEY-DAVIDSON X440 S Baja Orange</div><div className="carousel-item-price">₹2,29,500</div></Link>
+                  <Link href="/product/ktm-1" className="carousel-item"><img src="/image/61163l3zeyl._ac_sy200_.jpg" alt="KTM RC 200" /><div className="carousel-item-title">KTM RC 200 Bike Black</div><div className="carousel-item-price">₹2,17,272</div></Link>
+                  <Link href="/product/ktm-2" className="carousel-item"><img src="/image/61zcrvey5al._ac_sy200_.jpg" alt="KTM Duke" /><div className="carousel-item-title">KTM Duke 200 Dark Galvano</div><div className="carousel-item-price">₹2,01,546</div></Link>
+                  <Link href="/product/hero-1" className="carousel-item"><img src="/image/71rcj8dgb_l._ac_sy200_.jpg" alt="Hero Xtreme" /><div className="carousel-item-title">Hero MotoCorp XTREME 125R</div><div className="carousel-item-price">₹95,000</div></Link>
+                  <Link href="/product/bajaj-1" className="carousel-item"><img src="/image/51uaspahpfl._ac_sy200_.jpg" alt="Bajaj Avenger" /><div className="carousel-item-title">Bajaj Avenger 220 Cruise Moon White</div><div className="carousel-item-price">₹1,42,797</div></Link>
+                  <Link href="/product/pulsar-1" className="carousel-item"><img src="/image/512jq_6xadl._ac_sy200_.jpg" alt="Pulsar RS" /><div className="carousel-item-title">Bajaj Pulsar RS 200 White</div><div className="carousel-item-price">₹1,72,644</div></Link>
                 </div>
               </div>
             </div>

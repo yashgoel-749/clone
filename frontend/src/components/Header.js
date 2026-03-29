@@ -99,17 +99,32 @@ export default function Header() {
               <span className="nav-item-line2">EN <span className="nav-arrow">▾</span></span>
             </div>
 
-            {user ? (
-              <div className="nav-item" onClick={logout}>
-                <span className="nav-item-line1">Hello, {user.name}</span>
-                <span className="nav-item-line2">Account & Lists <span className="nav-arrow">▾</span></span>
+            <div className="nav-account-container">
+              {user ? (
+                <div className="nav-item">
+                  <span className="nav-item-line1">Hello, {user.name}</span>
+                  <span className="nav-item-line2">Account & Lists <span className="nav-arrow">▾</span></span>
+                </div>
+              ) : (
+                <Link href="/login" className="nav-item">
+                  <span className="nav-item-line1">Hello, sign in</span>
+                  <span className="nav-item-line2">Account & Lists <span className="nav-arrow">▾</span></span>
+                </Link>
+              )}
+
+              <div className="nav-account-dropdown">
+                <div className="nav-dropdown-title">Your Account</div>
+                <div className="nav-dropdown-list">
+                  <Link href="/account" className="nav-dropdown-link">Your Account</Link>
+                  <Link href="/orders" className="nav-dropdown-link">Your Orders</Link>
+                  <Link href="/wishlist" className="nav-dropdown-link">Your Wish List</Link>
+                  <Link href="/prime" className="nav-dropdown-link">Your Prime Membership</Link>
+                </div>
+                {user && (
+                  <button className="nav-signout-btn" onClick={logout}>Sign Out</button>
+                )}
               </div>
-            ) : (
-              <Link href="/login" className="nav-item">
-                <span className="nav-item-line1">Hello, sign in</span>
-                <span className="nav-item-line2">Account & Lists <span className="nav-arrow">▾</span></span>
-              </Link>
-            )}
+            </div>
 
             <div className="nav-item">
               <span className="nav-item-line1">Returns</span>
