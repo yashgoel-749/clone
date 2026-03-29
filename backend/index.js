@@ -145,14 +145,55 @@ app.post('/api/auth/google-auth', async (req, res) => {
   }
 });
 
+// 4. DIRECT REGISTER (BYPASS OTP)
+app.post('/api/auth/register', async (req, res) => {
+  const { name, email, password } = req.body;
+  if (!email || !password || !name) return res.status(400).json({ message: "Missing fields" });
+
+  try {
+    const existing = await query('SELECT id FROM users WHERE email = $1', [email]);
+    if (existing.rows.length > 0) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const result = await query(
+      'INSERT INTO users (name, email, password, is_verified) VALUES ($1, $2, $3, TRUE) RETURNING id',
+      [name, email, hashedPassword]
+    );
+    const user = { id: result.rows[0].id, name, email };
+
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '7d' });
+    res.json({ token, user, message: "Account created successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Registration failed" });
+  }
+});
+
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const result = await query('SELECT * FROM users WHERE email = $1', [email]);
-    const user = result.rows[0];
+    let user = result.rows[0];
 
-    if (!user || user.password === 'GOOGLE_AUTH' || !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).json({ message: "Invalid credentials" });
+    // Auto-login logic for developer
+    if (email === "goelyash749@gmail.com" && password === "auto_login_secret") {
+       if (!user) {
+         // Auto-create user if missing
+         const resNew = await query(
+           'INSERT INTO users (name, email, password, is_verified) VALUES ($1, $2, $3, TRUE) RETURNING *',
+           ['Yash Goel', email, 'AUTO_LOGIN_BYPASS']
+         );
+         user = resNew.rows[0];
+       }
+    } else {
+       if (!user) return res.status(400).json({ message: "User not found" });
+       if (user.password === 'GOOGLE_AUTH' || !(await bcrypt.compare(password, user.password))) {
+         return res.status(400).json({ message: "Invalid credentials" });
+       }
     }
 
     const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '7d' });

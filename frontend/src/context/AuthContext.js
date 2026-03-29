@@ -25,6 +25,24 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('amazon_clone_user', JSON.stringify(data.user));
   };
 
+  const register = async (name, email, password) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        saveAuth(data);
+        return { success: true };
+      }
+      return { success: false, message: data.message };
+    } catch (err) {
+      return { success: false, message: "Registration failed" };
+    }
+  };
+
   const login = async (email, password) => {
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
@@ -102,7 +120,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, sendOtp, verifyRegister, googleAuth, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, sendOtp, verifyRegister, googleAuth, logout }}>
       {children}
     </AuthContext.Provider>
   );

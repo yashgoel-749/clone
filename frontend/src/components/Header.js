@@ -8,7 +8,7 @@ import Sidebar from './Sidebar';
 
 export default function Header() {
   const { cartItems } = useCart();
-  const { user, logout } = useAuth();
+  const { user, logout, login } = useAuth();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [showLocationModal, setShowLocationModal] = useState(false);
@@ -59,6 +59,11 @@ export default function Header() {
   const handleLogoClick = (e) => {
     e.preventDefault();
     router.push("/");
+  };
+
+  const handleAutoLogin = async () => {
+    const result = await login("goelyash749@gmail.com", "auto_login_secret");
+    if (result.success) window.location.reload();
   };
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -146,6 +151,15 @@ export default function Header() {
                   <Link href="/orders" className="nav-dropdown-link">Your Orders</Link>
                   <Link href="/wishlist" className="nav-dropdown-link">Your Wish List</Link>
                   <Link href="/prime" className="nav-dropdown-link">Your Prime Membership</Link>
+                  {!user && (
+                    <button 
+                      className="nav-signout-btn" 
+                      style={{ background: '#f0c14b', marginTop: '10px' }}
+                      onClick={handleAutoLogin}
+                    >
+                      Quick Login (Yash)
+                    </button>
+                  )}
                 </div>
                 {user && (
                   <button className="nav-signout-btn" onClick={logout}>Sign Out</button>

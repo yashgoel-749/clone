@@ -3,19 +3,16 @@ import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-
 import { useGoogleLogin } from '@react-oauth/google';
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [otp, setOtp] = useState('');
-  const [otpSent, setOtpSent] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const { sendOtp, verifyRegister, googleAuth } = useAuth();
+  const { register, googleAuth } = useAuth();
   const router = useRouter();
 
   const handleGoogleLogin = useGoogleLogin({
@@ -33,8 +30,8 @@ export default function RegisterPage() {
     onError: () => setError("Google login failed")
   });
 
-  const handleSendOtp = async (e) => {
-    if (e) e.preventDefault();
+  const handleRegister = async (e) => {
+    e.preventDefault();
     setError('');
     setLoading(true);
 
@@ -44,21 +41,7 @@ export default function RegisterPage() {
       return;
     }
 
-    const result = await sendOtp(email);
-    if (result.success) {
-      setOtpSent(true);
-    } else {
-      setError(result.message);
-    }
-    setLoading(false);
-  };
-
-  const handleVerifyAndRegister = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    const result = await verifyRegister(name, email, password, otp);
+    const result = await register(name, email, password);
     if (result.success) {
       router.push('/');
     } else {
@@ -77,54 +60,39 @@ export default function RegisterPage() {
 
       <div className="a-auth-container">
         <div className="a-auth-box">
-          <h1 className="a-auth-title">{otpSent ? 'Verify Email' : 'Create Account'}</h1>
+          <h1 className="a-auth-title">Create Account</h1>
           
-          {otpSent && <p style={{fontSize: '13px', marginBottom: '15px'}}>We've sent a 6-digit code to <b>{email}</b>. Please enter it below.</p>}
           {error && <div className="a-auth-error">{error}</div>}
 
-          {!otpSent ? (
-            <form onSubmit={handleSendOtp}>
-              <div className="a-auth-field">
-                <label>Your Name</label>
-                <input type="text" className="a-auth-input" placeholder="First and last name" value={name} onChange={(e) => setName(e.target.value)} required />
-              </div>
-              <div className="a-auth-field">
-                <label>Email</label>
-                <input type="email" className="a-auth-input" value={email} onChange={(e) => setEmail(e.target.value)} required />
-              </div>
-              <div className="a-auth-field">
-                <label>Password</label>
-                <input type="password" className="a-auth-input" placeholder="At least 6 characters" value={password} onChange={(e) => setPassword(e.target.value)} required />
-              </div>
-              <button type="submit" disabled={loading} className="a-auth-btn">
-                {loading ? 'Sending OTP...' : 'Verify Email'}
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={handleVerifyAndRegister}>
-              <div className="a-auth-field">
-                <label>Enter OTP</label>
-                <input type="text" className="a-auth-input" maxLength="6" placeholder="6-digit code" value={otp} onChange={(e) => setOtp(e.target.value)} required />
-              </div>
-              <button type="submit" disabled={loading} className="a-auth-btn">
-                {loading ? 'Verifying...' : 'Create your Amazon account'}
-              </button>
-              <p style={{fontSize: '12px', marginTop: '10px', color: '#0066c0', cursor: 'pointer'}} onClick={handleSendOtp}>Resend OTP</p>
-            </form>
-          )}
+          <form onSubmit={handleRegister}>
+            <div className="a-auth-field">
+              <label>Your Name</label>
+              <input type="text" className="a-auth-input" placeholder="First and last name" value={name} onChange={(e) => setName(e.target.value)} required />
+            </div>
+            <div className="a-auth-field">
+              <label>Email</label>
+              <input type="email" className="a-auth-input" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            </div>
+            <div className="a-auth-field">
+              <label>Password</label>
+              <input type="password" className="a-auth-input" placeholder="At least 6 characters" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            </div>
+            <button type="submit" disabled={loading} className="a-auth-btn">
+              {loading ? 'Creating account...' : 'Create your Amazon account'}
+            </button>
+          </form>
 
           <p className="a-auth-disclaimer">
             By creating an account, you agree to Amazon's <Link href="#">Conditions of Use</Link> and <Link href="#">Privacy Notice</Link>.
           </p>
 
           <div className="a-auth-divider-container">
-             <hr className="a-auth-divider" />
              <span className="a-auth-divider-text">Or continue with</span>
           </div>
 
-          <button className="a-google-btn" onClick={() => handleGoogleLogin()}>
+          <button className="a-google-auth-btn-custom" onClick={() => handleGoogleLogin()}>
              <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google" />
-             Sign in with Google
+             <span>Sign in with Google</span>
           </button>
         </div>
 

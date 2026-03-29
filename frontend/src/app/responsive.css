@@ -125,3 +125,52 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ===== CUSTOM AUTH STYLES ===== */
+.a-auth-divider-container {
+  display: flex !important;
+  align-items: center;
+  text-align: center;
+  margin: 15px 0;
+  color: #767676;
+  font-size: 12px;
+}
+.a-auth-divider-container::before, .a-auth-divider-container::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e7e7e7;
+}
+.a-auth-divider-text {
+  padding: 0 10px;
+}
+
+.a-google-auth-btn-custom {
+  width: 100%;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background-color: #fff;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
+  margin-bottom: 15px;
+}
+
+.a-google-auth-btn-custom:hover {
+  background-color: #f7fafa;
+}
+
+.a-google-auth-btn-custom img {
+  width: 24px;
+  height: 24px;
+}
+
+.a-google-auth-btn-custom span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111;
+}
