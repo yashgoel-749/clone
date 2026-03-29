@@ -1,0 +1,127 @@
+
+/* ===== RESPONSIVE NAVBAR (MOBILE) ===== */
+.mobile-only { display: none !important; }
+.desktop-only { display: flex !important; }
+
+@media (max-width: 850px) {
+  .navbar {
+    height: auto !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+  }
+  
+  .nav-belt {
+    height: 50px !important;
+    justify-content: space-between !important;
+    padding: 0 10px !important;
+    width: 100% !important;
+  }
+  
+  .desktop-only { display: none !important; }
+  .mobile-only { display: flex !important; }
+  .mobile-hidden { display: none !important; }
+
+  .nav-left-mobile-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mobile-menu-btn {
+    padding: 5px !important;
+    display: block !important;
+    background: transparent !important;
+    color: white !important;
+  }
+
+  .nav-logo {
+    padding: 0 !important;
+  }
+
+  .nav-logo-text {
+    font-size: 18px !important;
+  }
+
+  .nav-right {
+    gap: 0 !important;
+  }
+
+  .nav-user-icon {
+    font-size: 18px;
+    margin-left: 2px;
+  }
+
+  .nav-item-line2 {
+    font-size: 13px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* Second Row: Search */
+  .nav-search-row-mobile {
+    width: 100%;
+    padding: 5px 10px 10px;
+    background: var(--nav-bg);
+  }
+
+  .nav-search-row-mobile .nav-search {
+    height: 44px !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    background: white !important;
+    width: 100% !important;
+  }
+
+  .nav-search-row-mobile .nav-search-input {
+    flex: 1;
+    border: none;
+    padding: 0 12px;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+  }
+
+  .nav-search-row-mobile .nav-search-btn {
+    background: var(--search-btn);
+    border-radius: 0 8px 8px 0;
+    padding: 0 12px;
+  }
+
+  /* Third Row: Location */
+  .nav-location-row-mobile {
+    width: 100%;
+    background: #232f3e;
+    color: #fff;
+    padding: 8px 15px;
+    font-size: 13px;
+    display: flex !important;
+    align-items: center;
+    gap: 5px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Adjust sub-nav for mobile */
+  .sub-nav {
+    display: none !important; 
+  }
+  
+  .main-content {
+    padding: 10px !important;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .card {
+     min-height: auto !important;
+     padding: 15px !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .card-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

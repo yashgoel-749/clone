@@ -222,18 +222,89 @@ app.get('/api/products/:id', async (req, res) => {
   }
 });
 
+// --- ADDRESS ROUTES ---
+
+// Get User Addresses
+app.get('/api/addresses/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId);
+  if (!userId || isNaN(userId)) return res.status(400).json({ message: "Invalid User" });
+
+  try {
+    const result = await query('SELECT * FROM addresses WHERE user_id = $1 ORDER BY is_default DESC, created_at DESC', [userId]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error fetching addresses" });
+  }
+});
+
+// Add New Address
+app.post('/api/addresses', async (req, res) => {
+  const { user_id, full_name, mobile_number, pincode, flat_house_no, area_street, landmark, city, state, is_default } = req.body;
+  
+  if (!user_id || !full_name || !mobile_number || !pincode) {
+    return res.status(400).json({ message: "Required fields missing" });
+  }
+
+  try {
+    // If setting as default, clear other default addresses for the user
+    if (is_default) {
+      await query('UPDATE addresses SET is_default = FALSE WHERE user_id = $1', [user_id]);
+    }
+
+    const result = await query(
+      `INSERT INTO addresses (user_id, full_name, mobile_number, pincode, flat_house_no, area_street, landmark, city, state, is_default)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+      [user_id, full_name, mobile_number, pincode, flat_house_no, area_street, landmark, city, state, is_default || false]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error saving address" });
+  }
+});
+
+// Set default address
+app.put('/api/addresses/default/:addressId', async (req, res) => {
+  const { userId } = req.body;
+  const addressId = req.params.addressId;
+  try {
+    await query('UPDATE addresses SET is_default = FALSE WHERE user_id = $1', [userId]);
+    await query('UPDATE addresses SET is_default = TRUE WHERE id = $1', [addressId]);
+    res.json({ message: "Default address updated" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to update default address" });
+  }
+});
+
 // --- ORDER ROUTES ---
 
 app.post('/api/orders', async (req, res) => {
-  const { cart, total, userId } = req.body;
+  const { cart, total, userId, shippingAddress, paymentMethod } = req.body;
   if (!cart?.length) return res.status(400).json({ message: "Empty cart" });
 
   const uId = parseInt(userId);
   if (!uId || isNaN(uId)) return res.status(400).json({ message: "Valid Login Required to Order" });
 
   try {
-    // 1. Create order
-    const orderRes = await query('INSERT INTO orders (user_id, total_amount, status) VALUES ($1, $2, $3) RETURNING id', [uId, total, 'paid']);
+    // 1. Create order with shipping info snapshot
+    const orderRes = await query(
+      `INSERT INTO orders (user_id, total_amount, status, full_name, mobile_number, pincode, flat_house_no, area_street, landmark, city, state, payment_method)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`,
+      [
+        uId, total, 'paid',
+        shippingAddress?.full_name || '',
+        shippingAddress?.mobile_number || '',
+        shippingAddress?.pincode || '',
+        shippingAddress?.flat_house_no || '',
+        shippingAddress?.area_street || '',
+        shippingAddress?.landmark || '',
+        shippingAddress?.city || '',
+        shippingAddress?.state || '',
+        paymentMethod || 'card'
+      ]
+    );
     const orderId = orderRes.rows[0].id;
 
     // 2. Insert order items
@@ -371,6 +442,11 @@ app.post('/api/cart', async (req, res) => {
     console.error(err);
     res.status(500).json({ message: "Error syncing cart" });
   }
+});
+
+// JSON 404 handler
+app.use((req, res) => {
+  res.status(404).json({ message: `Route ${req.method} ${req.url} not found.` });
 });
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

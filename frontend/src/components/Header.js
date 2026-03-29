@@ -72,11 +72,16 @@ export default function Header() {
     <>
       <nav className="navbar">
         <div className="nav-belt">
-          <Link href="/" className="nav-logo" onClick={handleLogoClick}>
-            <div className="nav-logo-text">amazon<span>.in</span></div>
-          </Link>
+          <div className="nav-left-mobile-wrap">
+            <div className="sub-nav-item sub-nav-all mobile-menu-btn mobile-only" onClick={() => setIsSidebarOpen(true)}>
+              <span className="hamburger">☰</span>
+            </div>
+            <Link href="/" className="nav-logo" onClick={handleLogoClick}>
+              <div className="nav-logo-text">amazon<span>.in</span></div>
+            </Link>
+          </div>
 
-          <div className="nav-location nav-item" onClick={() => setShowLocationModal(true)}>
+          <div className="nav-location nav-item desktop-only" onClick={() => setShowLocationModal(true)}>
             <span className="nav-loc-icon"></span>
             <div>
               <span className="nav-loc-line1">Delivering to Chandigarh 140603</span>
@@ -84,7 +89,7 @@ export default function Header() {
             </div>
           </div>
 
-          <div className="nav-search-wrapper">
+          <div className="nav-search-wrapper desktop-only">
             <form onSubmit={handleSearch} className={`nav-search ${isSearchFocused ? 'focused' : ''}`}>
               <select
                 className="nav-search-select"
@@ -102,7 +107,7 @@ export default function Header() {
               <input
                 type="text"
                 className="nav-search-input"
-                placeholder="Search Amazon.in (exg : Keyboard,mouse,bike,shirt)"
+                placeholder="Search Amazon.in"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
@@ -116,7 +121,7 @@ export default function Header() {
           </div>
 
           <div className="nav-right">
-            <div className="nav-item nav-lang">
+            <div className="nav-item nav-lang desktop-only">
               <span className="nav-flag">🇮🇳</span>
               <span className="nav-item-line2">EN <span className="nav-arrow">▾</span></span>
             </div>
@@ -124,13 +129,13 @@ export default function Header() {
             <div className="nav-account-container">
               {user ? (
                 <div className="nav-item">
-                  <span className="nav-item-line1">Hello, {user.name}</span>
-                  <span className="nav-item-line2">Account & Lists <span className="nav-arrow">▾</span></span>
+                  <span className="nav-item-line1 mobile-hidden">Hello, {user.name}</span>
+                  <span className="nav-item-line2">Sign in <span className="nav-user-icon">👤</span><span className="nav-arrow mobile-hidden">▾</span></span>
                 </div>
               ) : (
                 <Link href="/login" className="nav-item">
-                  <span className="nav-item-line1">Hello, sign in</span>
-                  <span className="nav-item-line2">Account & Lists <span className="nav-arrow">▾</span></span>
+                  <span className="nav-item-line1 mobile-hidden">Hello, sign in</span>
+                  <span className="nav-item-line2">Sign in <span className="nav-user-icon">👤</span><span className="nav-arrow mobile-hidden">▾</span></span>
                 </Link>
               )}
 
@@ -148,7 +153,7 @@ export default function Header() {
               </div>
             </div>
 
-            <Link href="/orders" className="nav-item">
+            <Link href="/orders" className="nav-item desktop-only">
               <span className="nav-item-line1">Returns</span>
               <span className="nav-item-line2">& Orders</span>
             </Link>
@@ -157,12 +162,36 @@ export default function Header() {
               <div className="nav-cart">
                 <div className="nav-cart-count-wrap">
                   <span className="nav-cart-count">{cartCount}</span>
-                  <span className="nav-cart-icon"></span> {/* Styled via CSS for accuracy */}
+                  <span className="nav-cart-icon"></span>
                 </div>
-                <span className="nav-cart-text">Cart</span>
+                <span className="nav-cart-text mobile-hidden">Cart</span>
               </div>
             </Link>
           </div>
+        </div>
+
+        {/* MOBILE SECOND ROW: SEARCH */}
+        <div className="nav-search-row-mobile mobile-only">
+          <form onSubmit={handleSearch} className={`nav-search ${isSearchFocused ? 'focused' : ''}`}>
+            <input
+              type="text"
+              className="nav-search-input"
+              placeholder="Search Amazon.in"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setIsSearchFocused(false)}
+            />
+            <button type="submit" className="nav-search-btn">
+              <svg viewBox="0 0 24 24" fill="#333"><path d="M10 2a8 8 0 105.3 14.7l5 5a1 1 0 001.4-1.4l-5-5A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z" /></svg>
+            </button>
+          </form>
+        </div>
+
+        {/* MOBILE THIRD ROW: LOCATION */}
+        <div className="nav-location-row-mobile mobile-only" onClick={() => setShowLocationModal(true)}>
+           <span className="nav-loc-icon">📍</span>
+           <span className="nav-loc-text">Delivering to New York 10001</span>
         </div>
       </nav>
 
