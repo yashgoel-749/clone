@@ -333,6 +333,75 @@ button {
   margin-left: -2px;
 }
 
+/* Account & Lists Dropdown */
+.nav-account-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-account-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 200px;
+  padding: 15px;
+  display: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+  color: #0f1111;
+}
+
+.nav-account-container:hover .nav-account-dropdown {
+  display: block;
+}
+
+.nav-dropdown-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.nav-dropdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-dropdown-link {
+  font-size: 13px;
+  color: #444;
+  text-decoration: none;
+}
+
+.nav-dropdown-link:hover {
+  color: #c45500;
+  text-decoration: underline;
+}
+
+.nav-signout-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 8px;
+  background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+  border: 1px solid #a88734;
+  border-radius: 3px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #111;
+  text-align: center;
+}
+
+.nav-signout-btn:hover {
+  background: linear-gradient(to bottom, #f5d78e, #eeb933);
+}
+
 /* ===== SUB NAV ===== */
 .sub-nav {
   background: var(--nav-sub-bg);
@@ -2310,4 +2379,23 @@ button {
   .pdp-buybox {
     padding: 15px;
   }
+}
+
+/* Dynamic Search Focus State - Amazon Glow & Backdrop */
+.nav-search.focused {
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px #f90, 0 0 0 3px rgba(255, 153, 0, 0.5);
+  position: relative;
+  z-index: 1005; 
+}
+
+.search-backdrop {
+  position: fixed;
+  top: 60px; /* Exact height of the .navbar, meaning the sub-nav and the rest of the page gets darkened */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  z-index: 999;
+  pointer-events: auto; /* Allow clicking the background to exit focus */
 }

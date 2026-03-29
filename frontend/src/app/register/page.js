@@ -4,6 +4,8 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+import { useGoogleLogin } from '@react-oauth/google';
+
 export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -15,6 +17,21 @@ export default function RegisterPage() {
   
   const { sendOtp, verifyRegister, googleAuth } = useAuth();
   const router = useRouter();
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      setLoading(true);
+      setError('');
+      const result = await googleAuth(tokenResponse.access_token);
+      if (result.success) {
+        router.push('/');
+      } else {
+        setError(result.message);
+      }
+      setLoading(false);
+    },
+    onError: () => setError("Google login failed")
+  });
 
   const handleSendOtp = async (e) => {
     if (e) e.preventDefault();
@@ -48,13 +65,6 @@ export default function RegisterPage() {
       setError(result.message);
     }
     setLoading(false);
-  };
-
-  const handleGoogleAuth = async () => {
-     setError("Registering via Google...");
-     // In a real app, this would trigger Google SDK
-     // Mocking for now as GOOGLE_CLIENT_ID needs to be valid
-     alert("Google OAuth: Redirecting to google.com...");
   };
 
   return (
@@ -112,7 +122,7 @@ export default function RegisterPage() {
              <span className="a-auth-divider-text">Or continue with</span>
           </div>
 
-          <button className="a-google-btn" onClick={handleGoogleAuth}>
+          <button className="a-google-btn" onClick={() => handleGoogleLogin()}>
              <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google" />
              Sign in with Google
           </button>
