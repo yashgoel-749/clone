@@ -2,12 +2,12 @@
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import Sidebar from './Sidebar';
 import { searchCategories, subNavItems } from '@/data/navigationData';
 
-export default function Header() {
+function HeaderContent() {
   const { cartItems } = useCart();
   const { user, logout, login } = useAuth();
   const [search, setSearch] = useState("");
@@ -246,5 +246,13 @@ export default function Header() {
       />
       {isSearchFocused && <div className="search-backdrop" onClick={() => setIsSearchFocused(false)}></div>}
     </>
+  );
+}
+
+export default function Header() {
+  return (
+    <Suspense fallback={<div className="navbar" style={{ height: '60px', background: '#131921' }}></div>}>
+      <HeaderContent />
+    </Suspense>
   );
 }
