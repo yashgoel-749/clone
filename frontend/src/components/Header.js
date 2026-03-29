@@ -19,11 +19,9 @@ function HeaderContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Close sidebar on route change
   useEffect(() => {
     setIsSidebarOpen(false);
-  }, [pathname, searchParams]);
-
+  }, [pathname]);
   // Clear search bar when returning to root homepage
   useEffect(() => {
     if (pathname === '/' && !searchParams.get('search') && !searchParams.get('category')) {
@@ -43,22 +41,15 @@ function HeaderContent() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    let query = `/?search=${search}`;
-    if (category !== "all") {
-      query += `&category=${category}`;
-    }
-    if (typeof document !== 'undefined' && document.activeElement && document.activeElement.blur) {
-      document.activeElement.blur();
-    }
+
+    if (!search.trim()) return;
+
+    const query = `/?search=${search}${category !== "all" ? `&category=${category}` : ""
+      }`;
+
     setIsSearchFocused(false);
     router.push(query);
   };
-
-  const handleLogoClick = (e) => {
-    e.preventDefault();
-    router.push("/");
-  };
-
   const handleAutoLogin = async () => {
     const result = await login("goelyash749@gmail.com", "auto_login_secret");
     if (result.success) window.location.reload();
@@ -74,17 +65,13 @@ function HeaderContent() {
             <div className="sub-nav-item sub-nav-all mobile-menu-btn mobile-only" onClick={() => setIsSidebarOpen(true)}>
               <span className="hamburger">☰</span>
             </div>
-            <Link href="/" className="nav-logo" onClick={handleLogoClick}>
-              <div className="nav-logo-text">amazon<span>.in</span></div>
+            <Link href="/" className="nav-logo">
+              <span className="nav-logo-base"></span>
             </Link>
           </div>
 
           <div className="nav-location nav-item desktop-only" onClick={() => setShowLocationModal(true)}>
-            <span className="nav-loc-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20" fill="#fff" width="14" height="18">
-                <path d="M8 0C3.6 0 0 3.4 0 7.6c0 5.7 8 12.4 8 12.4s8-6.7 8-12.4C16 3.4 12.4 0 8 0zm0 10.3c-1.5 0-2.7-1.2-2.7-2.7S6.5 4.9 8 4.9s2.7 1.2 2.7 2.7S9.5 10.3 8 10.3z" />
-              </svg>
-            </span>
+            <div className="nav-loc-icon"></div>
             <div>
               <span className="nav-loc-line1">Delivering to Mohali 160059</span>
               <span className="nav-loc-line2">Update location</span>
