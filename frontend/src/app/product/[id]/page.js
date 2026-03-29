@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 import { getProduct, getRelatedProducts } from '@/data/productData';
 import Link from 'next/link';
 
@@ -12,6 +13,7 @@ export default function ProductDetails() {
   const [activeImage, setActiveImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const router = useRouter();
   const relatedScrollRef = useRef(null);
 
@@ -286,8 +288,20 @@ export default function ProductDetails() {
                 Buy Now
               </button>
 
-              <div className="pdp-buybox-misc">
-                <span className="pdp-link-teal" style={{ cursor: 'pointer' }}>🤍 Add to Wish List</span>
+              <div className="pdp-buybox-misc" style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                <button 
+                  onClick={() => toggleWishlist(product)}
+                  style={{ 
+                    background: 'transparent', border: 'none', cursor: 'pointer', 
+                    fontSize: '32px', padding: '10px', transition: 'transform 0.2s',
+                    outline: 'none'
+                  }}
+                  onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                  onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                  title={isInWishlist(product.id) ? "Remove from Wishlist" : "Add to Wishlist"}
+                >
+                  {isInWishlist(product.id) ? '❤️' : '🤍'}
+                </button>
               </div>
 
               <div className="pdp-buybox-secure">

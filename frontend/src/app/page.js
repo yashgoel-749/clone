@@ -3,6 +3,7 @@ import React, { useEffect, useState, Suspense, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 import QuadCard from '@/components/QuadCard';
 import Footer from '@/components/Footer';
 import { cardGridRows, heroSlides, carouselProducts } from '@/data/homePageData';
@@ -43,8 +44,26 @@ function HeroCarousel() {
 
 // ===== SEARCH RESULT ITEM =====
 function SearchResultItem({ product, onAddToCart }) {
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const isFav = isInWishlist(product.id);
+
+  const handleToggle = (e) => {
+    e.preventDefault();
+    toggleWishlist(product);
+  };
+
   return (
-    <div className="search-list-item" style={{ display: 'flex', gap: '20px', padding: '15px 0', borderBottom: '1px solid #ddd' }}>
+    <div className="search-list-item" style={{ display: 'flex', gap: '20px', padding: '15px 0', borderBottom: '1px solid #ddd', position: 'relative' }}>
+        <button 
+          onClick={handleToggle}
+          style={{
+            position: 'absolute', top: '10px', left: '10px', background: 'transparent',
+            border: 'none', fontSize: '20px', cursor: 'pointer', zIndex: 5,
+            color: isFav ? '#e47911' : '#ccc', transform: 'scale(1.2)'
+          }}
+        >
+          {isFav ? '❤️' : '🤍'}
+        </button>
       <div className="img-wrap" style={{ width: '250px', height: '250px', flexShrink: 0, backgroundColor: '#f7f7f7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Link href={`/product/${product.id}`}>
           <img src={product.image} alt={product.title} style={{ maxWidth: '100%', maxHeight: '220px', mixBlendMode: 'multiply' }} />

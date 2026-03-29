@@ -24,9 +24,21 @@ const migrate = async () => {
     await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS otp VARCHAR(6);`);
     await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS otp_expiry TIMESTAMP;`);
     await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT FALSE;`);
+    
+    // Wishlist Table
+    await query(`
+      CREATE TABLE IF NOT EXISTS wishlist (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        product_id VARCHAR(100) REFERENCES products(id) ON DELETE CASCADE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(user_id, product_id)
+      );
+    `);
+
     console.log("DB Migrations completed.");
   } catch (err) {
-    console.log("Migration check skipped or table already updated.");
+    console.log("Migration check completed (tables already exist or updated).");
   }
 };
 migrate();
@@ -482,6 +494,62 @@ app.post('/api/cart', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error syncing cart" });
+  }
+});
+
+// --- WISHLIST ROUTES ---
+
+// Get Wishlist for user
+app.get('/api/wishlist/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  console.log("Fetch Wishlist Request for User:", userId);
+  if (!userId || userId === 'null' || userId === 'undefined') return res.json([]);
+  
+  try {
+    const result = await query(
+      `SELECT p.*, c.name as category_name
+       FROM products p
+       JOIN categories c ON p.category_id = c.id
+       JOIN wishlist w ON p.id = w.product_id
+       WHERE w.user_id = $1`,
+      [userId]
+    );
+    
+    const products = result.rows.map(p => ({
+      ...p,
+      price: parseFloat(p.price),
+      rating: parseFloat(p.rating),
+      category: p.category_name,
+      image: p.main_image
+    }));
+    console.log(`Fetched ${products.length} items for user ${userId}`);
+    res.json(products);
+  } catch (err) {
+    console.error("Fetch Wishlist Error:", err);
+    res.status(500).json({ message: "Error fetching wishlist" });
+  }
+});
+
+// Toggle Wishlist item
+app.post('/api/wishlist/toggle', async (req, res) => {
+  const { userId, productId } = req.body;
+  console.log("Wishlist Toggle Request:", { userId, productId });
+  if (!userId || !productId) return res.status(400).json({ message: "Missing fields" });
+
+  try {
+    const check = await query('SELECT id FROM wishlist WHERE user_id = $1 AND product_id = $2', [userId, productId]);
+    if (check.rows.length > 0) {
+      await query('DELETE FROM wishlist WHERE user_id = $1 AND product_id = $2', [userId, productId]);
+      console.log("Removed from wishlist");
+      res.json({ message: "Removed from wishlist", favorited: false });
+    } else {
+      await query('INSERT INTO wishlist (user_id, product_id) VALUES ($1, $2)', [userId, productId]);
+      console.log("Added to wishlist");
+      res.json({ message: "Added to wishlist", favorited: true });
+    }
+  } catch (err) {
+    console.error("Wishlist Toggle Error:", err);
+    res.status(500).json({ message: "Error toggling wishlist" });
   }
 });
 
