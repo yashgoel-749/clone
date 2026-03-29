@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
           <AuthProvider>
             <CartProvider>
               <Header />
-              <main className="main-content">
+              <main>
                 {children}
               </main>
             </CartProvider>
