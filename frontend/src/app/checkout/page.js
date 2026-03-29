@@ -9,7 +9,7 @@ export default function Checkout() {
   const { user } = useAuth();
   const router = useRouter();
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-  
+
   const [formData, setFormData] = useState({
     fullName: '',
     address: '',

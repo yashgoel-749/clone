@@ -139,9 +139,23 @@ export default function ProductDetails() {
                   </div>
                 ))}
               </div>
-              <div className="a-pdp-main-img">
-                <img src={images[activeImage]} alt={product.title} />
-                <p style={{fontSize: '11px', color: '#565959', marginTop: '10px'}}>Click to see full view</p>
+              <div className="a-pdp-main-img" style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '400px', flexGrow: 1 }}>
+                <button 
+                  onClick={() => setActiveImage(activeImage > 0 ? activeImage - 1 : images.length - 1)}
+                  style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', background: '#fff', border: '1px solid #ddd', borderRadius: '50%', width: '45px', height: '45px', fontSize: '20px', cursor: 'pointer', boxShadow: '0 2px 5px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}
+                  aria-label="Previous image"
+                >
+                  ❮
+                </button>
+                <img src={images[activeImage]} alt={product.title} style={{ maxWidth: '100%', maxHeight: '500px', objectFit: 'contain', zIndex: 1 }} />
+                <button 
+                  onClick={() => setActiveImage(activeImage < images.length - 1 ? activeImage + 1 : 0)}
+                  style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: '#fff', border: '1px solid #ddd', borderRadius: '50%', width: '45px', height: '45px', fontSize: '20px', cursor: 'pointer', boxShadow: '0 2px 5px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}
+                  aria-label="Next image"
+                >
+                  ❯
+                </button>
+                <p style={{fontSize: '11px', color: '#565959', marginTop: '15px', textAlign: 'center'}}>Click image to open expanded view</p>
               </div>
             </div>
 

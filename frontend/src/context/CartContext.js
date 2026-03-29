@@ -1,13 +1,14 @@
 "use client";
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+  const wasLoggedIn = useRef(false);
 
   // 1. Initial Load (Local Storage only on mount)
   useEffect(() => {
@@ -16,6 +17,17 @@ export const CartProvider = ({ children }) => {
       setCartItems(JSON.parse(savedCart));
     }
   }, []);
+
+  // Clear cart exactly when user signs out
+  useEffect(() => {
+    if (user) {
+      wasLoggedIn.current = true;
+    } else if (!user && wasLoggedIn.current && !authLoading) {
+      setCartItems([]);
+      localStorage.removeItem('amazonCart');
+      wasLoggedIn.current = false;
+    }
+  }, [user, authLoading]);
 
   // 2. Persistent Backend Load (on user login)
   useEffect(() => {

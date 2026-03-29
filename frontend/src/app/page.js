@@ -3,6 +3,7 @@ import React, { useEffect, useState, Suspense, useRef } from 'react';
 import ProductCard from '@/components/ProductCard';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { useCart } from '@/context/CartContext';
 
 function HeroCarousel() {
   const [index, setIndex] = useState(0);
@@ -52,19 +53,176 @@ function HeroCarousel() {
 
 
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
   const search = searchParams.get('search') || "";
   const category = searchParams.get('category') || "";
 
   const isSearching = search !== "" || category !== "";
+  
+  const [searchResults, setSearchResults] = useState([]);
+  const [loadingSearch, setLoadingSearch] = useState(false);
+  const [fallbackCategory, setFallbackCategory] = useState(false);
+  const { addToCart } = useCart();
+
+  useEffect(() => {
+    if (isSearching) {
+      setLoadingSearch(true);
+      setFallbackCategory(false);
+      const query = new URLSearchParams();
+      if (search) query.append("search", search);
+      if (category && category !== "all") query.append("category", category);
+      
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/products?${query.toString()}`)
+        .then(res => res.json())
+        .then(data => {
+            if (Array.isArray(data) && data.length === 0 && search && category && category !== "all") {
+              // Fallback: broaden search to all categories
+              return fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/products?search=${encodeURIComponent(search)}`)
+                .then(r => r.json())
+                .then(fallbackData => {
+                  setSearchResults(Array.isArray(fallbackData) ? fallbackData : []);
+                  if (Array.isArray(fallbackData) && fallbackData.length > 0) {
+                    setFallbackCategory(true);
+                  }
+                });
+            } else {
+              setSearchResults(Array.isArray(data) ? data : []);
+            }
+        })
+        .catch(err => console.error(err))
+        .finally(() => setLoadingSearch(false));
+    }
+  }, [search, category, isSearching]);
 
   return (
     <div className="home-container">
       {!isSearching && <HeroCarousel />}
 
-      <div className="main-content" style={{ marginTop: isSearching ? "0" : "-280px" }}>
-        {!isSearching && (
+      <div className="main-content" style={{ marginTop: isSearching ? "20px" : "-280px" }}>
+        {isSearching ? (
+          <div className="search-results-page" style={{ 
+            display: 'flex', 
+            background: '#fff',
+            minHeight: '100vh',
+            maxWidth: '1440px',
+            margin: '0 auto',
+            padding: '20px'
+          }}>
+            {/* LEFT SIDEBAR (MOCKED) */}
+            <div className="search-sidebar" style={{ width: '220px', paddingRight: '20px', flexShrink: 0, borderRight: '1px solid #ddd' }}>
+              <div style={{ marginBottom: '20px' }}>
+                <h4 style={{ fontSize: '14px', marginBottom: '8px' }}>Brands</h4>
+                {['ZEBRONICS', 'Portronics', 'Logitech', 'HP', 'Dell', 'acer', 'Ant Esports'].map(b => (
+                  <label key={b} style={{ display: 'block', marginBottom: '5px', fontSize: '13px', cursor: 'pointer' }}>
+                    <input type="checkbox" style={{ marginRight: '8px' }} /> {b}
+                  </label>
+                ))}
+                <span style={{ color: '#007185', fontSize: '13px', cursor: 'pointer' }}>✓ See more</span>
+              </div>
+              <div style={{ marginBottom: '20px' }}>
+                <h4 style={{ fontSize: '14px', marginBottom: '8px' }}>Customer Reviews</h4>
+                <div style={{ color: '#e77600', fontSize: '16px' }}>★★★★☆ <span style={{ color: '#0f1111', fontSize: '13px' }}>& Up</span></div>
+              </div>
+              <div style={{ marginBottom: '20px' }}>
+                <h4 style={{ fontSize: '14px', marginBottom: '8px' }}>Price</h4>
+                <div style={{ fontWeight: 'bold', fontSize: '13px', marginBottom: '8px' }}>₹185 - ₹45,300+</div>
+                <input type="range" min="185" max="45300" style={{ width: '100%', marginBottom: '10px' }} />
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '13px', color: '#0f1111' }}>
+                  <li>Up to ₹300</li>
+                  <li>₹300 - ₹450</li>
+                  <li>₹450 - ₹800</li>
+                  <li>₹800 - ₹1,400</li>
+                  <li>Over ₹1,400</li>
+                </ul>
+              </div>
+              <div style={{ marginBottom: '20px' }}>
+                <h4 style={{ fontSize: '14px', marginBottom: '8px' }}>Deals & Discounts</h4>
+                <div style={{ fontSize: '13px', marginBottom: '5px' }}>All Discounts</div>
+                <div style={{ fontSize: '13px', marginBottom: '5px' }}>Today's Deals</div>
+              </div>
+              <div>
+                <h4 style={{ fontSize: '14px', marginBottom: '8px' }}>Connectivity</h4>
+                {['USB', 'Bluetooth', 'Radio Frequency', 'Infrared', 'PS/2', 'Wi-Fi'].map(b => (
+                  <label key={b} style={{ display: 'block', marginBottom: '5px', fontSize: '13px', cursor: 'pointer' }}>
+                    <input type="checkbox" style={{ marginRight: '8px' }} /> {b}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* MAIN RESULTS BLOCK */}
+            <div className="search-main" style={{ flexGrow: 1, paddingLeft: '20px' }}>
+              <div className="search-header" style={{ marginBottom: '15px' }}>
+                <p style={{ fontSize: '14px', color: '#0f1111', margin: 0 }}>Showing products near you, with fast delivery</p>
+                <p style={{ fontSize: '12px', color: '#007185', margin: '0 0 10px 0' }}>See all products, across price ranges.</p>
+                <h2 style={{ fontSize: '20px', fontWeight: 'bold', margin: '15px 0 5px 0' }}>Results</h2>
+                <p style={{ fontSize: '12px', color: '#565959', margin: 0 }}>Check each product page for other buying options.</p>
+              </div>
+
+              {loadingSearch ? (
+                <div style={{ padding: '40px', textAlign: 'center' }}>Searching...</div>
+              ) : searchResults.length === 0 ? (
+                <div style={{ padding: '40px' }}>
+                  <h3 style={{fontSize:'18px'}}>No results for "{search}"</h3>
+                  <p>Try checking your spelling or use more general terms</p>
+                </div>
+              ) : (
+                <div className="search-list-wrapper" style={{ borderTop: '1px solid #ddd', paddingTop: '10px' }}>
+                  {fallbackCategory && (
+                    <div style={{ padding: '10px 0', fontSize: '14px', color: '#c40000', marginBottom: '10px' }}>
+                      <span style={{fontWeight: 'bold'}}>0 results in {category}.</span> Showing results for "{search}" in all departments instead.
+                    </div>
+                  )}
+                  {searchResults.map(p => (
+                    <div key={p.id} className="search-list-item" style={{ display: 'flex', gap: '20px', padding: '15px 0', borderBottom: '1px solid #ddd' }}>
+                      <div className="img-wrap" style={{ width: '250px', height: '250px', flexShrink: 0, backgroundColor: '#f7f7f7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Link href={`/product/${p.id}`}>
+                          <img src={p.image} alt={p.title} style={{ maxWidth: '100%', maxHeight: '220px', mixBlendMode: 'multiply' }} />
+                        </Link>
+                      </div>
+                      <div className="info-wrap" style={{ flexGrow: 1, paddingTop: '10px' }}>
+                        <Link href={`/product/${p.id}`} style={{ textDecoration: 'none' }}>
+                          <h2 style={{ fontSize: '16px', color: '#0f1111', fontWeight: 500, lineHeight: 1.4, marginBottom: '5px' }}>{p.title} || Marketed by Retailer</h2>
+                        </Link>
+                        <div style={{ fontSize: '14px', color: '#007185', display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                          4.0 <span style={{ color: '#e77600', marginLeft: '4px' }}>★★★★☆</span> <span style={{ marginLeft: '4px' }}>({p.rating_count || '300+'})</span>
+                        </div>
+                        <p style={{ fontSize: '12px', color: '#565959', marginBottom: '8px' }}>300+ bought in past month</p>
+                        <p style={{ color: '#C7511F', fontSize: '12px', marginBottom: '4px' }}>Lowest price in 30 days</p>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '5px', marginBottom: '5px' }}>
+                          <span style={{ fontSize: '14px', position: 'relative', top: '3px' }}>₹</span>
+                          <span style={{ fontSize: '24px', fontWeight: '500' }}>{(p.price || 0).toLocaleString()}</span>
+                          <span style={{ fontSize: '12px', color: '#565959', alignSelf: 'flex-end', marginLeft: '2px', position: 'relative', top: '-4px' }}>
+                            M.R.P: <strike>₹{((p.price || 0) * 1.6).toFixed(0)}</strike> ({(60).toFixed(0)}% off)
+                          </span>
+                        </div>
+                        <p style={{ fontSize: '12px', color: '#565959', marginBottom: '8px' }}>Up to 5% back with Amazon Pay ICICI card</p>
+                        <p style={{ fontSize: '14px', color: '#0f1111', fontWeight: 500, marginBottom: '15px' }}>FREE delivery <span style={{ fontWeight: 'bold' }}>Tue, 31 Mar</span></p>
+                        
+                        <button 
+                          onClick={(e) => { e.preventDefault(); addToCart({ ...p, price: p.price }); }}
+                          style={{
+                            background: '#FFD814',
+                            border: '1px solid #FCD200',
+                            borderRadius: '20px',
+                            padding: '8px 45px',
+                            fontSize: '13px',
+                            cursor: 'pointer',
+                            display: 'inline-block',
+                            boxShadow: '0 2px 5px rgba(213,217,217,.5)'
+                          }}
+                        >
+                          Add to cart
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
           <>
             {/* ROW 1 */}
             <div className="card-grid">
@@ -297,3 +455,12 @@ export default function Home() {
     </div>
   );
 }
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div style={{padding:'50px', textAlign:'center'}}>Loading Amazon...</div>}>
+      <HomeContent />
+    </Suspense>
+  );
+}
+ 

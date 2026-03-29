@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import Sidebar from './Sidebar';
 
 export default function Header() {
@@ -13,12 +13,23 @@ export default function Header() {
   const [category, setCategory] = useState("all");
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   // Close sidebar on route change
   useEffect(() => {
     setIsSidebarOpen(false);
-  }, [router.asPath]);
+  }, [pathname, searchParams]);
+
+  // Clear search bar when returning to root homepage
+  useEffect(() => {
+    if (pathname === '/' && !searchParams.get('search') && !searchParams.get('category')) {
+      setSearch("");
+      setCategory("all");
+    }
+  }, [pathname, searchParams]);
 
   // Lock scroll when sidebar is open
   useEffect(() => {
@@ -35,6 +46,13 @@ export default function Header() {
     if (category !== "all") {
       query += `&category=${category}`;
     }
+    
+    // Explicitly blur the active element to remove the focus UI state
+    if (typeof document !== 'undefined' && document.activeElement && document.activeElement.blur) {
+      document.activeElement.blur();
+    }
+    setIsSearchFocused(false);
+
     router.push(query);
   };
 
@@ -59,7 +77,7 @@ export default function Header() {
           </Link>
 
           <div className="nav-location nav-item" onClick={() => setShowLocationModal(true)}>
-            <span className="nav-loc-icon">📍</span>
+            <span className="nav-loc-icon"></span>
             <div>
               <span className="nav-loc-line1">Delivering to Chandigarh 140603</span>
               <span className="nav-loc-line2">Update location</span>
@@ -67,11 +85,13 @@ export default function Header() {
           </div>
 
           <div className="nav-search-wrapper">
-            <form onSubmit={handleSearch} className="nav-search">
+            <form onSubmit={handleSearch} className={`nav-search ${isSearchFocused ? 'focused' : ''}`}>
               <select
                 className="nav-search-select"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setIsSearchFocused(false)}
                 aria-label="Search category"
               >
                 <option value="all">All Categories</option>
@@ -82,9 +102,11 @@ export default function Header() {
               <input
                 type="text"
                 className="nav-search-input"
-                placeholder="Search Amazon.in"
+                placeholder="Search Amazon.in (exg : Keyboard,mouse,bike,shirt)"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setIsSearchFocused(false)}
                 aria-label="Search Amazon.in"
               />
               <button type="submit" className="nav-search-btn" aria-label="Search">
@@ -126,10 +148,10 @@ export default function Header() {
               </div>
             </div>
 
-            <div className="nav-item">
+            <Link href="/orders" className="nav-item">
               <span className="nav-item-line1">Returns</span>
               <span className="nav-item-line2">& Orders</span>
-            </div>
+            </Link>
 
             <Link href="/cart" className="nav-item nav-cart-wrap">
               <div className="nav-cart">
@@ -184,11 +206,12 @@ export default function Header() {
           </div>
         </div>
       )}
-      <Sidebar 
-        isOpen={isSidebarOpen} 
-        onClose={() => setIsSidebarOpen(false)} 
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
         user={user}
       />
+      {isSearchFocused && <div className="search-backdrop" onClick={() => setIsSearchFocused(false)}></div>}
     </>
   );
 }

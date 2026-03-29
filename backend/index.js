@@ -238,9 +238,8 @@ app.post('/api/orders', async (req, res) => {
 
     // 2. Insert order items
     for (const item of cart) {
-      const pId = parseInt(item.id);
-      if (!isNaN(pId)) {
-        await query('INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase) VALUES ($1, $2, $3, $4)', [orderId, pId, item.quantity, item.price]);
+      if (item.id) {
+        await query('INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase) VALUES ($1, $2, $3, $4)', [orderId, item.id, item.quantity, item.price]);
       }
     }
 
@@ -254,6 +253,51 @@ app.post('/api/orders', async (req, res) => {
   } catch (err) {
     console.error("Order error:", err);
     res.status(500).json({ message: "Server error placing order" });
+  }
+});
+
+// Get User Orders
+app.get('/api/orders/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const ordersRes = await query(
+      `SELECT o.id as order_id, o.total_amount, o.status, o.created_at, 
+              oi.product_id, oi.quantity, oi.price_at_purchase,
+              p.title, p.main_image
+       FROM orders o
+       JOIN order_items oi ON o.id = oi.order_id
+       JOIN products p ON oi.product_id = p.id
+       WHERE o.user_id = $1
+       ORDER BY o.created_at DESC`,
+      [userId]
+    );
+
+    // Group items by order ID
+    const orders = ordersRes.rows.reduce((acc, row) => {
+      const orderId = row.order_id;
+      if (!acc[orderId]) {
+        acc[orderId] = {
+          id: orderId,
+          total: row.total_amount,
+          status: row.status,
+          date: row.created_at,
+          items: []
+        };
+      }
+      acc[orderId].items.push({
+        id: row.product_id,
+        title: row.title,
+        quantity: row.quantity,
+        price: row.price_at_purchase,
+        image: row.main_image
+      });
+      return acc;
+    }, {});
+
+    res.json(Object.values(orders));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error fetching orders" });
   }
 });
 
