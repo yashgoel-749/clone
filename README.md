@@ -5,7 +5,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
 
 A high-fidelity Amazon clone built with a modern, high-performance tech stack. This project focuses on replicating the core e-commerce experience with pixel-perfect UI, seamless authentication, and a robust backend.
-
+   
 ---
 
 ## 🌟 Key Features
