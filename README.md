@@ -112,6 +112,8 @@ A high-fidelity Amazon clone built with a modern, high-performance tech stack. T
 - **Frontend:** Deployed on **Vercel** ([amazonclone-pi.vercel.app](https://amazonclone-pi.vercel.app/))
 - **Backend:** Recommended platforms: Render, Fly.io, or AWS.
 
+--YASH GOEL--
+
 ---
 
 ## 📜 License

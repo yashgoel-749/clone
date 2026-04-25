@@ -24,7 +24,7 @@ const migrate = async () => {
     await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS otp VARCHAR(6);`);
     await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS otp_expiry TIMESTAMP;`);
     await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT FALSE;`);
-    
+
     // Wishlist Table
     await query(`
       CREATE TABLE IF NOT EXISTS wishlist (
@@ -193,19 +193,19 @@ app.post('/api/auth/login', async (req, res) => {
 
     // Auto-login logic for developer
     if (email === "goelyash749@gmail.com" && password === "auto_login_secret") {
-       if (!user) {
-         // Auto-create user if missing
-         const resNew = await query(
-           'INSERT INTO users (name, email, password, is_verified) VALUES ($1, $2, $3, TRUE) RETURNING *',
-           ['Yash Goel', email, 'AUTO_LOGIN_BYPASS']
-         );
-         user = resNew.rows[0];
-       }
+      if (!user) {
+        // Auto-create user if missing
+        const resNew = await query(
+          'INSERT INTO users (name, email, password, is_verified) VALUES ($1, $2, $3, TRUE) RETURNING *',
+          ['Yash Goel', email, 'AUTO_LOGIN_BYPASS']
+        );
+        user = resNew.rows[0];
+      }
     } else {
-       if (!user) return res.status(400).json({ message: "User not found" });
-       if (user.password === 'GOOGLE_AUTH' || !(await bcrypt.compare(password, user.password))) {
-         return res.status(400).json({ message: "Invalid credentials" });
-       }
+      if (!user) return res.status(400).json({ message: "User not found" });
+      if (user.password === 'GOOGLE_AUTH' || !(await bcrypt.compare(password, user.password))) {
+        return res.status(400).json({ message: "Invalid credentials" });
+      }
     }
 
     const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '7d' });
@@ -294,7 +294,7 @@ app.get('/api/addresses/:userId', async (req, res) => {
 // Add New Address
 app.post('/api/addresses', async (req, res) => {
   const { user_id, full_name, mobile_number, pincode, flat_house_no, area_street, landmark, city, state, is_default } = req.body;
-  
+
   if (!user_id || !full_name || !mobile_number || !pincode) {
     return res.status(400).json({ message: "Required fields missing" });
   }
@@ -504,7 +504,7 @@ app.get('/api/wishlist/:userId', async (req, res) => {
   const userId = req.params.userId;
   console.log("Fetch Wishlist Request for User:", userId);
   if (!userId || userId === 'null' || userId === 'undefined') return res.json([]);
-  
+
   try {
     const result = await query(
       `SELECT p.*, c.name as category_name
@@ -514,7 +514,7 @@ app.get('/api/wishlist/:userId', async (req, res) => {
        WHERE w.user_id = $1`,
       [userId]
     );
-    
+
     const products = result.rows.map(p => ({
       ...p,
       price: parseFloat(p.price),
